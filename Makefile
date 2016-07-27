@@ -8,6 +8,6 @@ RUN_ARGS := $(wordlist 1,$(words $(MAKECMDGOALS)),$(MAKECMDGOALS))
 endif
 
 # run the corresponding lua script
-DIR=LUA_MAKE
+DIR=LEOS
 CMD=@luajit $(DIR)/main.lua $(DIR) $(RUN_ARGS)
 $(eval $(RUN_ARGS):;$(CMD))
