@@ -23,16 +23,9 @@ function fs.isdir(path)
         return true
     end
 end
-
-local function string_split(self, sep)
-    local fields = {}
-    local pattern = string.format("([^%s]+)", sep)
-    string.gsub(self, pattern, function(c) fields[#fields+1] = c end)
-    return fields
-end
 function fs.mkdir(path)
     local folder = ''
-    local split = string_split(path, '/')
+    local split = string.split(path, '/')
     for i,v in ipairs(split) do
         folder = folder..v..'/'
         os.execute('mkdir -p "'..folder..'"')

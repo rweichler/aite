@@ -30,7 +30,19 @@ function builder:set_ldflags(ldflags)
 end
 
 function builder:get_ldflags()
-    return self._ldflags or ''
+    local ldflags = self._ldflags or ''
+    local libraries = ''
+    if self.library_dirs then
+        for i,v in ipairs(self.library_dirs) do
+            libraries = libraries..' -L'..v
+        end
+    end
+    if self.libraries then
+        for i,v in ipairs(self.libraries) do
+            libraries = libraries..' -l'..v
+        end
+    end
+    return ldflags..' '..libraries
 end
 
 function builder:set_cflags(cflags)
@@ -38,7 +50,14 @@ function builder:set_cflags(cflags)
 end
 
 function builder:get_cflags()
-    return self._cflags or ''
+    local cflags = self._cflags or ''
+    local include = '-I'..self.src_folder
+    if self.include_dirs then
+        for i,v in ipairs(self.include_dirs) do
+            include = include..' -I'..v
+        end
+    end
+    return cflags..' '..include
 end
 
 function builder:set_sflags(sflags)
@@ -46,7 +65,8 @@ function builder:set_sflags(sflags)
 end
 
 function builder:get_sflags()
-    return self._sflags or ''
+    local sflags = self._sflags or ''
+    return sflags
 end
 
 function builder:get_src()

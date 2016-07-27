@@ -27,7 +27,7 @@ end
 
 function builder:get_is_making_dylib()
     local suffix = '.dylib'
-    if suffix == string.sub(self.output, #self.output - #suffix + 1, #self.output) then
+    if string.has_suffix(self.output, '.dylib') then
         return true
     else
         return false

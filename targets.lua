@@ -2,17 +2,29 @@
 -- `make` or `make default`
 function default()
     local b = builder('apple')
-    --b.sdk = 'iphoneos'
-    --b.archs = {'armv7', 'arm64'}
-    b.frameworks = {'Foundation'}
-    b.src_ext = 'c'
-    b.src_folder = 'c'
-    b.build_folder = 'build/c'
-    b.compiler = 'clang'
-    b.linker = 'clang'
-    b.output = 'bin/a.dylib'
+    b.compiler = 'clang++'
+    b.linker = 'clang++'
+    b.include_dirs = {
+        '/usr/local/include',
+        '/opt/X11/include'
+    }
+    b.library_dirs = {
+        '/usr/local/lib',
+        '/opt/X11/lib'
+    }
+    b.libraries = {
+        'glfw3',
+        'glew'
+    }
+    b.frameworks = {
+        'OpenGL'
+    }
+    b.sflags = '-std=c++14'
+    b.src_ext = 'cpp'
+    b.src_folder = 'cpp'
+    b.build_folder = 'build/cpp'
+    b.output = 'a.out'
 
-    fs.mkdir('bin')
     b:build()
 end
 
