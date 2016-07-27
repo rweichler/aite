@@ -39,6 +39,7 @@ function default()
         'UIKit',
         'Foundation'
     }
+    b.output = 'my_sick_tweak.dylib'
     b:build()
 end
 ```
