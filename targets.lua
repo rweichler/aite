@@ -1,9 +1,9 @@
 
--- `make` or `make default`
+-- this is called when `make` is
+-- given no arguments
 function default()
     local b = builder('apple')
     b.compiler = 'clang++'
-    b.linker = 'clang++'
     b.include_dirs = {
         '/usr/local/include',
         '/opt/X11/include'
@@ -23,7 +23,6 @@ function default()
     b.src_ext = 'cpp'
     b.src_folder = 'cpp'
     b.build_folder = 'build/cpp'
-    b.output = 'a.out'
 
     b:build()
 end

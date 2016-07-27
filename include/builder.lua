@@ -70,16 +70,17 @@ function builder:get_sflags()
 end
 
 function builder:get_src()
+    local src_ext = assert(self.src_ext, 'src_ext not set (e.g. "c" or "cpp" or "java")')
     if self._src then
         return self._src
     end
 
     local r = {}
-    local src = fs.scandir(self.src_folder, wildcard(".*%."..self.src_ext)) 
+    local src = fs.scandir(self.src_folder, wildcard(".*%."..src_ext)) 
     for i,v in ipairs(src) do
         local t = {}
         r[#r + 1] = t
-        t.obj = string.gsub(v, "(.*)%."..self.src_ext, "%1.o")
+        t.obj = string.gsub(v, "(.*)%."..src_ext, "%1.o")
         t.src = v
     end
     return r
@@ -87,14 +88,14 @@ end
 
 function builder:build(flags)
     -- args
-    local compiler = assert(self.compiler, 'compiler not set (e.g. "clang" or "gcc")')
-    local linker = assert(self.linker, 'linker not set (e.g. "clang" or "gcc"')
+    local compiler = assert(self.compiler, 'compiler not set (e.g. "clang" or "gcc" or "javac")')
+    local linker = compiler or self.linker
     local src_folder = self.src_folder or '.'
     local build_folder = self.build_folder or '.'
     local cflags = self.cflags
     local ldflags = self.ldflags
     local sflags = self.sflags
-    local output = assert(self.output, 'output not set (e.g. "a.out" or "a.exe")')
+    local output = self.output or 'a.out'
 
     -- flags
     local execute

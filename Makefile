@@ -1,4 +1,7 @@
-# look in LUA_MAKE/targets.lua for actual build scripts
+# this is entirely for people with muscle memory
+# from using Makefile build systems.
+
+# this basically translates `make X` to `./main.lua X`
 
 # get command line arguments
 ifndef MAKECMDGOALS
@@ -9,5 +12,5 @@ endif
 
 # run the corresponding lua script
 DIR=LEOS
-CMD=@luajit $(DIR)/main.lua $(DIR) $(RUN_ARGS)
+CMD=@luajit $(DIR)/main.lua $(RUN_ARGS)
 $(eval $(RUN_ARGS):;$(CMD))
