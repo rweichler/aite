@@ -1,7 +1,5 @@
-OP Lua build system.
+# Sexy Lua build system for iOS jb dev
 
-Super good for jailbreak development. ez pz lemon squeezy.
+Docs coming soonish. For now, look at `targets.lua` to see how sexy this is.
 
 This will be used to build Lucy and HamannBoard. And eventually MoonBoard.
-
-Docs coming soonish.
