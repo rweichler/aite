@@ -1,3 +1,3 @@
 OP Lua build system.
 
-Supports Apple platform and is sexy af.
+Super good for jailbreak development. ez pz lemon squeezy.
