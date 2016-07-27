@@ -8,6 +8,9 @@ function builder:new(kind)
         local sub = require('include/builders/'..kind)
         self = self:subclass(sub)
     end
+    self.src_folder = self.src_folder or '.'
+    self.build_folder = self.build_folder or '.'
+    self.output = self.output or 'a.out'
     return self
 end
 
@@ -90,12 +93,12 @@ function builder:build(flags)
     -- args
     local compiler = assert(self.compiler, 'compiler not set (e.g. "clang" or "gcc" or "javac")')
     local linker = compiler or self.linker
-    local src_folder = self.src_folder or '.'
-    local build_folder = self.build_folder or '.'
+    local src_folder = self.src_folder
+    local build_folder = self.build_folder
     local cflags = self.cflags
     local ldflags = self.ldflags
     local sflags = self.sflags
-    local output = self.output or 'a.out'
+    local output = self.output
 
     -- flags
     local execute
