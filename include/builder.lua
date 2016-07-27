@@ -89,7 +89,7 @@ function builder:get_src()
     return r
 end
 
-function builder:build(flags)
+function builder:compile()
     -- args
     local compiler = assert(self.compiler, 'compiler not set (e.g. "clang" or "gcc" or "javac")')
     local linker = compiler or self.linker
@@ -101,19 +101,9 @@ function builder:build(flags)
     local output = self.output
 
     -- flags
-    local execute
-    local pretty_print = false
-    local quiet = false
-    if flags == 'verbose' then
-        execute = os.pexecute
-    else
-        execute = os.execute
-        if flags == 'quiet' then
-            quiet = true
-        else
-            pretty_print = true
-        end
-    end
+    local execute = self.verbose and os.pexecute or os.execute
+    local pretty_print = not self.verbose and not self.quiet
+    local quiet = self.quiet
 
     -- printing shit
     if not quiet then
@@ -140,10 +130,28 @@ function builder:build(flags)
         obj[#obj + 1] = build_folder..'/'..v.obj
     end
 
+    return obj
+
+end
+
+function builder:link(obj)
+    -- args
+    local compiler = assert(self.compiler, 'compiler not set (e.g. "clang" or "gcc" or "javac")')
+    local linker = compiler or self.linker
+    local src_folder = self.src_folder
+    local build_folder = self.build_folder
+    local cflags = self.cflags
+    local ldflags = self.ldflags
+    local sflags = self.sflags
+    local output = self.output
+
+    -- flags
+    local execute = self.verbose and os.pexecute or os.execute
+    local pretty_print = not self.verbose and not self.quiet
+    local quiet = self.quiet
     -- link
     if pretty_print then
         print(YELLOW('link')..DARK_RED(' ---')..RED('> ')..GREEN(output))
     end
     execute(linker..' '..table.concat(obj, ' ')..' -o '..output..' '..ldflags..' '..sflags)
-
 end

@@ -40,11 +40,14 @@ function default()
         'Foundation'
     }
     b.output = 'my_sick_tweak.dylib'
-    b:build()
+
+    b:link(b:compile())
 end
 ```
 
 If your project was just a bunch of `.m` files, it would compile all of them and then link them with UIKit, and then give you a dylib.
+
+A more practical example can be found in the `targets.lua` file in this repo.
 
 ## Available options
 

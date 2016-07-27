@@ -2,29 +2,35 @@
 -- this is called when `make` is
 -- given no arguments
 function default()
-    local b = builder('apple')
-    b.compiler = 'clang++'
-    b.include_dirs = {
+    local c = builder('apple')
+    c.compiler = 'clang++'
+    c.include_dirs = {
         '/usr/local/include',
         '/opt/X11/include'
     }
-    b.library_dirs = {
+    c.sflags = '-std=c++14'
+    c.src_ext = 'cpp'
+    c.src_folder = 'src'
+    c.build_folder = 'build'
+
+    local c_obj = c:compile()
+
+    c.src_ext = 'm'
+    local m_obj = c:compile()
+
+    c.library_dirs = {
         '/usr/local/lib',
         '/opt/X11/lib'
     }
-    b.libraries = {
+    c.libraries = {
         'glfw3',
         'glew'
     }
-    b.frameworks = {
-        'OpenGL'
+    c.frameworks = {
+        'OpenGL',
+        'Foundation'
     }
-    b.sflags = '-std=c++14'
-    b.src_ext = 'cpp'
-    b.src_folder = 'cpp'
-    b.build_folder = 'build/cpp'
-
-    b:build()
+    c:link(table.merge(c_obj, m_obj))
 end
 
 -- `make clean`
