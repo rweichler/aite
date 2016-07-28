@@ -24,7 +24,7 @@ And then edit `targets.lua` to your needs. Then run:
 
 To run the corresponding function in `targets.lua`.
 
-(You can instead `ln -s Makefile .` if you want to type `make` instead of `./make`)
+(You can instead `ln -s LEOS/Makefile .` if you want to type `make` instead of `./make`)
 
 ## `targets.lua` example
 
