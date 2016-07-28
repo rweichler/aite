@@ -32,6 +32,7 @@ To run the corresponding function in `targets.lua`.
 -- this is called when `make` is
 -- called with no arguments
 function default()
+    -- setup compiler
     local b = builder('apple')
     b.compiler = 'clang'
     b.src = fs.wildcard('m') --compile all m files in current directory
@@ -39,10 +40,22 @@ function default()
         'UIKit',
         'Foundation'
     }
-    b.output = 'my_sick_tweak.dylib'
+    b.output = 'layout/MobileSubstrate/DynamicLibraries/my_sick_tweak.dylib'
 
+    -- setup debber
+    local d = debber()
+    d.input = 'layout'
+    d.output = 'lmfao.deb'
+    d.packageinfo = {
+        Name = 'LMFAO',
+        Package = 'com.apple.lmfao',
+        Version = 1.0,
+    }
+
+    -- do it!!
     local objs = b:compile()
     b:link(objs)
+    d:make_deb()
 end
 ```
 
@@ -50,9 +63,14 @@ If your project was just a bunch of `.m` files, it would compile all of them and
 
 A more practical example can be found in the `targets.lua` file in this repo.
 
-## Available options
+## Using builder
 
-So there are two ways to do this. Either with the 'apple' helper or not. I'd recommend always having 'apple' in there. That way you get these:
+So there are two ways to do this.
+
+* `local b = builder()`
+* `local b = builder('apple')`
+
+I'd recommend always having 'apple' in there. That way you get these:
 
 * `b.frameworks`: public Apple frameworks you want to link with. Private framework support coming soon.
 * `b.archs`: table listing of the archs you want to use (e.g. `armv7`, `arm64`, `x86_64`)
@@ -74,6 +92,28 @@ Advanced ones:
 * `b.include_dirs`: table listing all of the folders you wanna include from (like rpetrich's iphoneheaders or something)
 * `b.library_dirs`: table listing of all the folders you wanna look in for libraries.
 * `b.libraries`: table listing of the libraries you want to link to.
+
+## Using debber
+
+Create it using this:
+
+```lua
+local d = debber()
+d.input = 'layout' -- folder where the "layout" of the deb will be
+d.output = 'package.deb' -- self-explanitory
+d.packageinfo = { -- equivalent of the DEBIAN/control file
+    Name = 'Yeee',
+    Package = 'yee.yee.yee',
+    Version = '1.0',
+}
+```
+
+Run it using this:
+
+```lua
+d:make_deb()
+```
+
 
 ## Things to keep in mind
 

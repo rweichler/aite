@@ -38,13 +38,30 @@ function fs.isdir(path)
         return true
     end
 end
-function fs.mkdir(path)
+
+function fs.isfile(path)
+    local f = io.open(path, 'r')
+    if f then
+        io.close(f)
+        return not fs.isdir(path)
+    else
+        return false
+    end
+end
+
+function fs.mkdir(path, skip_last)
     local folder = ''
     local split = string.split(path, '/')
     for i,v in ipairs(split) do
+        if skip_last and i == #split then
+            break
+        end
         folder = folder..v..'/'
-        os.execute('mkdir -p "'..folder..'"')
+        if os.execute('mkdir -p "'..folder..'"') ~= 0 then
+            return false
+        end
     end
+    return true
 end
 
 ffi.cdef[[

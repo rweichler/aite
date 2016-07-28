@@ -122,5 +122,6 @@ function builder:link(obj)
     if pretty_print then
         print(YELLOW('link')..DARK_RED(' ---')..RED('> ')..GREEN(output))
     end
+    fs.mkdir(output, true)
     execute(linker..' '..table.concat(obj, ' ')..' -o '..output..' '..ldflags..' '..sflags)
 end
