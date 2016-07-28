@@ -1,4 +1,4 @@
-# Sexy Lua build system for iOS jb dev
+# Lua Theos
 
 This will be used to build Lucy and HamannBoard. And eventually MoonBoard.
 
