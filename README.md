@@ -34,14 +34,15 @@ To run the corresponding function in `targets.lua`.
 function default()
     local b = builder('apple')
     b.compiler = 'clang'
-    b.src_ext = 'm' --compile all m files in current directory
+    b.src = fs.wildcard('m') --compile all m files in current directory
     b.frameworks = {
         'UIKit',
         'Foundation'
     }
     b.output = 'my_sick_tweak.dylib'
 
-    b:link(b:compile())
+    local objs = b:compile()
+    b:link(objs)
 end
 ```
 
@@ -62,8 +63,8 @@ So there are two ways to do this. Either with the 'apple' helper or not. I'd rec
 These are the ones included by default, no matter what:
 
 * `b.compiler`: e.g. `gcc` or `clang`
-* `b.ext`: The extension of the code you'll be compiling (e.g. `c` or `cpp`)
 * `b.src_folder`: The folder where all your code is.
+* `b.src`: Table of all the source files you'll be compiling, relative to `src_folder`.
 * `b.build_folder`: The folder where you want all the ugly `.o` files to go.
 * `b.output`: Where the executable should go. Default is `a.out`. Add `.dylib` to the end to make a dylib that can be dynamically loaded.
 
@@ -77,4 +78,4 @@ Advanced ones:
 ## Things to keep in mind
 
 * This only works with C/C++/Objective-C code. Logos isn't supported yet.
-* In my example I only had one builder. But you can have as many as you want! If you have `c` and `cpp` and `m` files, you can just make 3 builders.
+* In my example I only had one builder. But you can have as many as you want! If you have `c` and `cpp` files that require different compilers, then you can just use two builders to compile them, and then `table.merge` them and pass them to a linker.

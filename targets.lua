@@ -8,16 +8,6 @@ function default()
         '/usr/local/include',
         '/opt/X11/include'
     }
-    c.sflags = '-std=c++14'
-    c.src_ext = 'cpp'
-    c.src_folder = 'src'
-    c.build_folder = 'build'
-
-    local c_obj = c:compile()
-
-    c.src_ext = 'm'
-    local m_obj = c:compile()
-
     c.library_dirs = {
         '/usr/local/lib',
         '/opt/X11/lib'
@@ -30,10 +20,15 @@ function default()
         'OpenGL',
         'Foundation'
     }
-    c:link(table.merge(c_obj, m_obj))
+    c.sflags = '-std=c++14'
+    c.src = table.merge(fs.wildcard('cpp', 'src'), fs.wildcard('mm', 'src'))
+    c.src_folder = 'src'
+    c.build_folder = 'build'
+
+    c:link(c:compile())
 end
 
 -- `make clean`
 function clean()
-    os.pexecute("rm -rf bin build")
+    os.pexecute("rm -rf bin build a.out")
 end

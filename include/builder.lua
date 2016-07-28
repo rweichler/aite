@@ -1,7 +1,5 @@
 builder = object()
 
-local getsources
-
 function builder:new(kind)
     local self = object.new(self, kind)
     if kind then
@@ -14,19 +12,6 @@ function builder:new(kind)
     return self
 end
 
-local function wildcard(pattern)
-    return function(path)
-        return string.find(path, pattern)
-    end
-end
-
-local function getsources(self)
-    local obj = {}
-    for i,v in ipairs(src) do
-        obj[#obj + 1] = string.gsub(v, "(.*)%."..self.src_ext, "%1.o")
-    end
-    return src, obj
-end
 
 function builder:set_ldflags(ldflags)
     self._ldflags = ldflags
@@ -72,26 +57,10 @@ function builder:get_sflags()
     return sflags
 end
 
-function builder:get_src()
-    local src_ext = assert(self.src_ext, 'src_ext not set (e.g. "c" or "cpp" or "java")')
-    if self._src then
-        return self._src
-    end
-
-    local r = {}
-    local src = fs.scandir(self.src_folder, wildcard(".*%."..src_ext)) 
-    for i,v in ipairs(src) do
-        local t = {}
-        r[#r + 1] = t
-        t.obj = string.gsub(v, "(.*)%."..src_ext, "%1.o")
-        t.src = v
-    end
-    return r
-end
-
 function builder:compile()
     -- args
     local compiler = assert(self.compiler, 'compiler not set (e.g. "clang" or "gcc" or "javac")')
+    local src = assert(self.src, 'src not set (e.g. {"main.c"})')
     local linker = compiler or self.linker
     local src_folder = self.src_folder
     local build_folder = self.build_folder
@@ -107,27 +76,27 @@ function builder:compile()
 
     -- printing shit
     if not quiet then
-        print('building .'..self.src_ext..' files in '..src_folder..':')
+        print('building ('..table.concat(self.src, ', ')..') in '..src_folder..':')
     end
 
 
     -- actual shit
 
-    local src = self.src
     local obj = {}
 
     fs.mkdir(build_folder)
     for i,v in ipairs(src) do
+        local o = fs.replace_ext(v, 'o')
         -- compile
         local compiler = v.compiler or compiler
         local cflags = cflags..' '..(v.cflags or '')
         if pretty_print then
-            print('    '..YELLOW(compiler)..RED(' <')..DARK_RED('--- ')..v.src)
+            print('    '..YELLOW(compiler)..RED(' <')..DARK_RED('--- ')..v)
         end
-        execute(compiler..' '..src_folder..'/'..v.src..' -c -o '..build_folder..'/'..v.obj..' '..cflags..' '..sflags)
+        execute(compiler..' '..src_folder..'/'..v..' -c -o '..build_folder..'/'..o..' '..cflags..' '..sflags)
 
         -- setup obj
-        obj[#obj + 1] = build_folder..'/'..v.obj
+        obj[#obj + 1] = build_folder..'/'..o
     end
 
     return obj

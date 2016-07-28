@@ -14,6 +14,21 @@ function fs.scandir(directory, filter)
     return t
 end
 
+function fs.wildcard(ext, folder)
+    if not folder then folder = '.' end
+
+    return fs.scandir(folder, function(path)
+        local i, j =  string.find(path, ".*%."..ext)
+        return i == 1 and j == #path
+    end)
+end
+
+function fs.replace_ext(path, ext)
+    local split = string.split(path, '.')
+    split[#split] = ext
+    return table.concat(split, '.')
+end
+
 function fs.isdir(path)
     local dir = ffi.C.opendir(path)
     if dir == ffi.NULL then
