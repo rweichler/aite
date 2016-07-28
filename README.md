@@ -1,5 +1,7 @@
 # Lua Theos
 
+Sexy Lua build system (for iOS jailbreak dev).
+
 This will be used to build Lucy and HamannBoard. And eventually MoonBoard.
 
 # Dependencies
