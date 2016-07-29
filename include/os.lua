@@ -1,7 +1,7 @@
 
 function os.pexecute(...)
     print(...)
-    os.execute(...)
+    return os.execute(...)
 end
 
 function os.capture(cmd)
