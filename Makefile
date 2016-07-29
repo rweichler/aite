@@ -13,4 +13,4 @@ endif
 # run the corresponding lua script
 DIR=LEOS
 CMD=@luajit $(DIR)/main.lua $(RUN_ARGS)
-$(eval $(RUN_ARGS):;$(CMD))
+$(eval $(word 1, $(RUN_ARGS)):;$(CMD))

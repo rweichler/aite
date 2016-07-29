@@ -24,7 +24,13 @@ require('include/init')
 dofile('targets.lua')
 local f = _G[target]
 if f then
-    f()
+    local x = {...}
+    table.remove(x, 1)
+    f(unpack(x))
 else
     print("No function for '"..target.."' found :(")
+end
+
+if #arg > 1 then
+    print(GREEN("Ignore the following error, it's just a limitation of Makefiles:"))
 end
