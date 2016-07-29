@@ -76,7 +76,7 @@ function builder:compile()
 
     -- printing shit
     if not quiet then
-        print(PURPLE('building ('..table.concat(self.src, ', ')..') in '..src_folder..':'))
+        print(PINK('building ('..table.concat(self.src, ', ')..') in '..src_folder..':'))
     end
 
 
