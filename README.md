@@ -63,7 +63,7 @@ end
 
 If your project was just a bunch of `.m` files, it would compile all of them and then link them with UIKit, and then give you a dylib.
 
-A more practical example can be found in the `targets.lua` file in this repo.
+Then, it would make a deb, that you could put on your repo.
 
 ## Using builder
 
