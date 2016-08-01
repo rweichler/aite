@@ -1,13 +1,13 @@
 fs = {}
 -- Lua implementation of PHP scandir function
-function fs.scandir(directory, filter)
+function fs.scandir(directory, filter, decorator)
     local i = 0
     local t = {}
     local pfile = io.popen('ls "'..directory..'"')
     for filename in pfile:lines() do
         if not filter or filter(filename) then
             i = i + 1
-            t[i] = filename
+            t[i] = decorator and decorator(filename) or filename
         end
     end
     pfile:close()
@@ -20,6 +20,8 @@ function fs.wildcard(ext, folder)
     return fs.scandir(folder, function(path)
         local i, j =  string.find(path, ".*%."..ext)
         return i == 1 and j == #path
+    end, function(filename)
+        return folder..'/'..filename
     end)
 end
 

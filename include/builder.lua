@@ -6,7 +6,6 @@ function builder:new(kind)
         local sub = require('include/builders/'..kind)
         self = self:subclass(sub)
     end
-    self.src_folder = self.src_folder or '.'
     self.build_folder = self.build_folder or '.'
     self.output = self.output or 'a.out'
     return self
@@ -39,7 +38,7 @@ end
 
 function builder:get_cflags()
     local cflags = self._cflags or ''
-    local include = '-I'..self.src_folder
+    local include = ''
     if self.include_dirs then
         for i,v in ipairs(self.include_dirs) do
             include = include..' -I'..v
@@ -62,7 +61,6 @@ function builder:compile()
     local compiler = assert(self.compiler, 'compiler not set (e.g. "clang" or "gcc" or "javac")')
     local src = assert(self.src, 'src not set (e.g. {"main.c"})')
     local linker = compiler or self.linker
-    local src_folder = self.src_folder
     local build_folder = self.build_folder
     local cflags = self.cflags
     local ldflags = self.ldflags
@@ -76,7 +74,7 @@ function builder:compile()
 
     -- printing shit
     if not quiet then
-        print(PINK('building ('..table.concat(self.src, ', ')..') in '..src_folder..':'))
+        print(PINK('building '..table.concat(self.src, ', ')..':'))
     end
 
 
@@ -84,8 +82,8 @@ function builder:compile()
 
     local obj = {}
 
-    fs.mkdir(build_folder)
     for i,v in ipairs(src) do
+        fs.mkdir(build_folder..'/'..v, true)
         local o = fs.replace_ext(v, 'o')
         -- compile
         local compiler = v.compiler or compiler
@@ -93,7 +91,7 @@ function builder:compile()
         if pretty_print then
             print('    '..YELLOW(compiler)..RED(' <')..DARK_RED('--- ')..v)
         end
-        local command = compiler..' '..src_folder..'/'..v..' -c -o '..build_folder..'/'..o..' '..cflags..' '..sflags
+        local command = compiler..' '..v..' -c -o '..build_folder..'/'..o..' '..cflags..' '..sflags
         local success = execute(command) == 0
 
         if not success then
@@ -113,7 +111,6 @@ function builder:link(obj)
     -- args
     local compiler = assert(self.compiler, 'compiler not set (e.g. "clang" or "gcc" or "javac")')
     local linker = compiler or self.linker
-    local src_folder = self.src_folder
     local build_folder = self.build_folder
     local cflags = self.cflags
     local ldflags = self.ldflags
