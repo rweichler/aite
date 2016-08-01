@@ -39,6 +39,7 @@ function builder:get_ldflags()
     local dylib = self.is_making_dylib and '-dynamiclib' or ''
     local frameworks = ''
     if self.frameworks then
+        frameworks = frameworks..' -F/System/Library/PrivateFrameworks'
         for i,v in ipairs(self.frameworks) do
             frameworks = frameworks..' -framework '..v
         end
