@@ -93,7 +93,13 @@ function builder:compile()
         if pretty_print then
             print('    '..YELLOW(compiler)..RED(' <')..DARK_RED('--- ')..v)
         end
-        execute(compiler..' '..src_folder..'/'..v..' -c -o '..build_folder..'/'..o..' '..cflags..' '..sflags)
+        local command = compiler..' '..src_folder..'/'..v..' -c -o '..build_folder..'/'..o..' '..cflags..' '..sflags
+        local success = execute(command) == 0
+
+        if not success then
+            print(RED("ERROR: ").."Couldn't compile "..v..". Set "..YELLOW("builder.verbose = true").." for more details.")
+            os.exit(1)
+        end
 
         -- setup obj
         obj[#obj + 1] = build_folder..'/'..o
@@ -123,5 +129,10 @@ function builder:link(obj)
         print(YELLOW('link')..DARK_RED(' ---')..RED('> ')..GREEN(output))
     end
     fs.mkdir(output, true)
-    execute(linker..' '..table.concat(obj, ' ')..' -o '..output..' '..ldflags..' '..sflags)
+    local success = execute(linker..' '..table.concat(obj, ' ')..' -o '..output..' '..ldflags..' '..sflags) == 0
+
+    if not success then
+        print(RED("ERROR: ").."Couldn't link "..output..". Set "..YELLOW("builder.verbose = true").." for more details.")
+        os.exit(1)
+    end
 end

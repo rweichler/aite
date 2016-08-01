@@ -63,11 +63,9 @@ function debber:make_deb()
     end
 
     if not success then
-        local lol = ""
-        if not packageinfo then
-            lol = "Probably because you're using a DEBIAN/control file."
-        end
-        error("Couldn't create "..output..". "..lol.." Use make_deb('verbose') for more details.")
+        local lol = packageinfo and "" or " Probably because you're using a DEBIAN/control file."
+        print(RED("ERROR: ").."Couldn't create "..output.."."..lol.." Set "..YELLOW("debber.verbose = true").." for more details.")
+        os.exit(1)
     end
 
     return success
