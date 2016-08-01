@@ -2,7 +2,7 @@
 
 Sexy Lua build system (for iOS jailbreak dev).
 
-This will be used to build Lucy and HamannBoard. And eventually MoonBoard.
+This is being used to build [Lucy](http://github.com/rweichler/lucy), and any future tweaks I make.
 
 # Dependencies
 
