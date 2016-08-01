@@ -84,7 +84,7 @@ These are the ones included by default, no matter what:
 
 * `b.compiler`: e.g. `gcc` or `clang`
 * `b.src`: Table of all the source files you'll be compiling
-* `b.build_folder`: The folder where you want all the ugly `.o` files to go.
+* `b.build_dir`: The folder where you want all the ugly `.o` files to go.
 * `b.output`: Where the executable should go. Default is `a.out`. Add `.dylib` to the end to make a dylib that can be dynamically loaded.
 
 Advanced ones: 

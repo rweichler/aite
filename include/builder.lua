@@ -6,7 +6,7 @@ function builder:new(kind)
         local sub = require('include/builders/'..kind)
         self = self:subclass(sub)
     end
-    self.build_folder = self.build_folder or '.'
+    self.build_dir = self.build_dir or '.'
     self.output = self.output or 'a.out'
     return self
 end
@@ -61,7 +61,7 @@ function builder:compile()
     local compiler = assert(self.compiler, 'compiler not set (e.g. "clang" or "gcc" or "javac")')
     local src = assert(self.src, 'src not set (e.g. {"main.c"})')
     local linker = compiler or self.linker
-    local build_folder = self.build_folder
+    local build_dir = self.build_dir
     local cflags = self.cflags
     local ldflags = self.ldflags
     local sflags = self.sflags
@@ -83,7 +83,7 @@ function builder:compile()
     local obj = {}
 
     for i,v in ipairs(src) do
-        fs.mkdir(build_folder..'/'..v, true)
+        fs.mkdir(build_dir..'/'..v, true)
         local o = fs.replace_ext(v, 'o')
         -- compile
         local compiler = v.compiler or compiler
@@ -91,7 +91,7 @@ function builder:compile()
         if pretty_print then
             print('    '..YELLOW(compiler)..RED(' <')..DARK_RED('--- ')..v)
         end
-        local command = compiler..' '..v..' -c -o '..build_folder..'/'..o..' '..cflags..' '..sflags
+        local command = compiler..' '..v..' -c -o '..build_dir..'/'..o..' '..cflags..' '..sflags
         local success = execute(command) == 0
 
         if not success then
@@ -100,7 +100,7 @@ function builder:compile()
         end
 
         -- setup obj
-        obj[#obj + 1] = build_folder..'/'..o
+        obj[#obj + 1] = build_dir..'/'..o
     end
 
     return obj
@@ -109,10 +109,7 @@ end
 
 function builder:link(obj)
     -- args
-    local compiler = assert(self.compiler, 'compiler not set (e.g. "clang" or "gcc" or "javac")')
-    local linker = compiler or self.linker
-    local build_folder = self.build_folder
-    local cflags = self.cflags
+    local linker = self.linker or assert(self.compiler, 'linker not set (e.g. "clang" or "gcc" or "javac")')
     local ldflags = self.ldflags
     local sflags = self.sflags
     local output = self.output
