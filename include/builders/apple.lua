@@ -44,6 +44,11 @@ function builder:get_ldflags()
             frameworks = frameworks..' -framework '..v
         end
     end
+
+    if not self.disable_ios9_workaround then
+        ldflags = ldflags..' -Wl,-segalign,4000'
+    end
+
     return ldflags..' '..frameworks..' '..dylib
 end
 
