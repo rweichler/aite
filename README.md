@@ -1,8 +1,9 @@
 # Lua Theos
 
-Sexy Lua build system (for iOS jailbreak dev).
+My build system for making software for jailbroken iOS. It is currently being used to build:
 
-This is being used to build [Lucy](http://github.com/rweichler/lucy), and EqualizerEverywhere.
+* [Lucy](http://github.com/rweichler/lucy)
+* EqualizerEverywhere
 
 # Dependencies
 
