@@ -95,8 +95,7 @@ function builder:compile()
         local success = execute(command) == 0
 
         if not success then
-            print(RED("ERROR: ").."Couldn't compile "..v..". Set "..YELLOW("builder.verbose = true").." for more details.")
-            os.exit(1)
+            error("Couldn't compile "..v..". Set "..YELLOW("builder.verbose = true").." for more details.")
         end
 
         -- setup obj
@@ -126,7 +125,6 @@ function builder:link(obj)
     local success = execute(linker..' '..table.concat(obj, ' ')..' -o '..output..' '..ldflags..' '..sflags) == 0
 
     if not success then
-        print(RED("ERROR: ").."Couldn't link "..output..". Set "..YELLOW("builder.verbose = true").." for more details.")
-        os.exit(1)
+        error("Couldn't link "..output..". Set "..YELLOW("builder.verbose = true").." for more details.")
     end
 end

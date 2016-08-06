@@ -64,8 +64,7 @@ function debber:make_deb()
 
     if not success then
         local lol = packageinfo and "" or " Probably because you're using a DEBIAN/control file."
-        print(RED("ERROR: ").."Couldn't create "..output.."."..lol.." Set "..YELLOW("debber.verbose = true").." for more details.")
-        os.exit(1)
+        error("Couldn't create "..output.."."..lol.." Set "..YELLOW("debber.verbose = true").." for more details.")
     end
 
     return success

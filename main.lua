@@ -26,9 +26,16 @@ local f = _G[target]
 if f then
     local x = {...}
     table.remove(x, 1)
-    f(unpack(x))
+    local success, err = pcall(f, unpack(x))
+    if not success then
+        print(RED("ERROR: ")..err)
+    end
 else
     print("No function for '"..target.."' found :(")
+end
+
+if cleanup then
+    cleanup(...)
 end
 
 if #arg > 1 then
