@@ -55,7 +55,16 @@ end
 function builder:link(obj)
     self.super.link(self, obj)
 
-    print(YELLOW('sign ')..self.output)
+    -- flags
+    local execute = self.verbose and os.pexecute or os.execute
+    local pretty_print = not self.verbose and not self.quiet
+
+    if pretty_print then
+        print(YELLOW('sign ')..self.output)
+    end
+
+    execute("ldid -S "..self.output)
+
 end
 
 return builder
