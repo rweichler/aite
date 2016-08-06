@@ -8,7 +8,7 @@ end
 
 function debber:make_deb()
 
-    local input = self.input or error('input not set (e.g. a folder called "layout")')
+    local input = self.input or error('input not set (e.g. a folder called "layout")', 2)
 
     local output = self.output or (function ()
         local pwd = os.capture('pwd')
@@ -28,15 +28,15 @@ function debber:make_deb()
     local created_DEBIAN = false
     if packageinfo then
         if not packageinfo.Version then
-            error("packageinfo.Version not set")
+            error("packageinfo.Version not set", 2)
         end
         if not packageinfo.Package then
-            error("packageinfo.Package not set")
+            error("packageinfo.Package not set", 2)
         end
         if not fs.isdir(input..'/DEBIAN') then
             created_DEBIAN = true
             if not fs.mkdir(input..'/DEBIAN') then
-                error("packageinfo set, but could not create "..self.input.."/DEBIAN folder")
+                error("packageinfo set, but could not create "..self.input.."/DEBIAN folder", 2)
             end
         end
         local f = io.open(input..'/DEBIAN/control', 'w')
@@ -47,7 +47,7 @@ function debber:make_deb()
     elseif fs.isfile(input..'/DEBIAN/control')  then
         print(RED("Warning:").." using a DEBIAN/control file is deprecated. Use debber.packageinfo instead.")
     else
-        error('packageinfo not set (e.g. {Package = "lol.wut", Version = "1.0"})')
+        error('packageinfo not set (e.g. {Package = "lol.wut", Version = "1.0"})', 2)
     end
 
     local tail = ''
@@ -64,7 +64,7 @@ function debber:make_deb()
 
     if not success then
         local lol = packageinfo and "" or " Probably because you're using a DEBIAN/control file."
-        error("Couldn't create "..output.."."..lol.." Set "..YELLOW("debber.verbose = true").." for more details.")
+        error("Couldn't create "..output.."."..lol.." Set "..YELLOW("debber.verbose = true").." for more details.", 2)
     end
 
     return success
