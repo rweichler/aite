@@ -52,4 +52,10 @@ function builder:get_ldflags()
     return ldflags..' '..frameworks..' '..dylib
 end
 
+function builder:link(obj)
+    self.super.link(self, obj)
+
+    print(YELLOW('sign ')..self.output)
+end
+
 return builder
