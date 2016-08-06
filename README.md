@@ -2,7 +2,7 @@
 
 Sexy Lua build system (for iOS jailbreak dev).
 
-This is being used to build [Lucy](http://github.com/rweichler/lucy), and any future tweaks I make.
+This is being used to build [Lucy](http://github.com/rweichler/lucy), and EqualizerEverywhere.
 
 # Dependencies
 
