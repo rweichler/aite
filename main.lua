@@ -34,8 +34,8 @@ else
     print("No function for '"..target.."' found :(")
 end
 
-if cleanup then
-    cleanup(...)
+if finish then
+    finish(...)
 end
 
 if #arg > 1 then
