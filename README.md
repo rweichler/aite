@@ -35,15 +35,23 @@ To run the corresponding function in `targets.lua`.
 -- this is called when `make` is
 -- called with no arguments
 function default()
+    -- cleanup old layout folder
+    os.pexecute("rm -rf layout")
+
     -- setup compiler
     local b = builder('apple')
     b.compiler = 'clang'
-    b.src = fs.wildcard('m') --compile all m files in current directory
+    b.src = fs.scandir('*.m') --compile all .m files in current directory
     b.frameworks = {
         'UIKit',
         'Foundation'
     }
     b.output = 'layout/MobileSubstrate/DynamicLibraries/my_sick_tweak.dylib'
+
+    -- compile
+    local objs = b:compile()
+    -- link
+    b:link(objs)
 
     -- setup debber
     local d = debber()
@@ -55,9 +63,7 @@ function default()
         Version = 1.0,
     }
 
-    -- do it!!
-    local objs = b:compile()
-    b:link(objs)
+    -- create deb file
     d:make_deb()
 end
 ```
