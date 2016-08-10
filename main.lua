@@ -16,8 +16,10 @@ end
 local folder = where_is_main_dot_lua()
 local target = arg[1] or 'default'
 
-package.path = package.path..';'..folder..'/?.lua'
-package.path = package.path..';'..folder..'/?/init.lua'
+package.path = package.path..';'..folder..'/?.lua'..
+                             ';'..folder..'/?/init.lua'..
+                             ';'..folder..'/deps/?.lua'..
+                             ';'..folder..'/deps/?/init.lua'
 
 require('include/init')
 

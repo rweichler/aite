@@ -1,9 +1,49 @@
+local md5 = require 'md5'
 debber = object()
 
 function debber:new()
     local self = object.new(self)
     self.options = self.options or "-Zgzip"
     return self
+end
+
+function debber:print_packageinfo()
+    local packageinfo = self.packageinfo
+    local debfile = self.output
+    if not packageinfo then
+        error("packageinfo not set")
+    elseif not debfile then
+        error("output not set")
+    end
+    if not packageinfo.Package then
+        error("packageinfo.Package not set", 2)
+    elseif not packageinfo.Version then
+        error("packageinfo.Version not set", 2)
+    end
+    local f, err = io.open(debfile, 'r')
+    if not f then
+        error("could not open output file '"..debfile.."' ("..err..")")
+    end
+
+
+    local first = {Package = true, Name = true, Version = true}
+    print('Package: '..packageinfo.Package)
+    if packageinfo.Name then
+        print('Name: '..packageinfo.Name)
+    end
+    print('Version: '..packageinfo.Version)
+    for k,v in pairs(packageinfo) do
+        if not first[k] then
+            print(k..': '..v)
+        end
+    end
+    local contents = f:read("*all")
+    local md5sum = md5.sumhexa(contents)
+    local size = f:seek("end")
+    io.close(f)
+    print('MD5sum: '..md5sum)
+    print('Size: '..size)
+    print('Filename: ./debs/'..debfile)
 end
 
 function debber:make_deb()
