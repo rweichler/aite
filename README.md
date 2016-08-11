@@ -20,6 +20,8 @@ ln -s /some/directory/LEOS/main.lua leos
 
 Now you have the `leos` command.
 
+You can honestly name it whatever you want, though. I go with `mak` because I'm used to typing `make` lol.
+
 ## `targets.lua` example
 
 ```lua
