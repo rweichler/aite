@@ -1,6 +1,13 @@
 #!/usr/bin/env luajit
 
-local function where_is_main_dot_lua()
+function os.capture(cmd)
+  local f = assert(io.popen(cmd, 'r'))
+  local s = assert(f:read('*a'))
+  f:close()
+  return string.sub(s, 1, #s - 1)
+end
+
+local function get_folder_from_path(path)
     local function string_split(self, sep)
         local fields = {}
         local pattern = string.format("([^%s]+)", sep)
@@ -8,9 +15,21 @@ local function where_is_main_dot_lua()
         return fields
     end
 
-    local components = string_split(arg[0], '/')
+    local components = string_split(path, '/')
     components[#components] = nil
-    return table.concat(components, '/')
+    return (string.sub(path,1,1) == '/' and '/' or '')..table.concat(components, '/')
+end
+
+local function where_is_main_dot_lua()
+    local cmd = arg[0]
+    local symlink = os.capture('readlink "'..cmd..'"')
+    if #symlink == 0 then
+        return get_folder_from_path(cmd)
+    elseif not (string.sub(symlink, 1, 3) == '../') then
+        return get_folder_from_path(symlink)
+    end
+    -- get absolute path
+    return get_folder_from_path(get_folder_from_path(get_folder_from_path(cmd))..'/'..string.sub(symlink, 4, #symlink))
 end
 
 local folder = where_is_main_dot_lua()
