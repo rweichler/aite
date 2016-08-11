@@ -58,7 +58,3 @@ end
 if finish then
     finish(...)
 end
-
-if #arg > 1 then
-    print(GREEN("Ignore the following error, it's just a limitation of Makefiles:"))
-end

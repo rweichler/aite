@@ -9,25 +9,16 @@ My build system for making software for jailbroken iOS. It is currently being us
 
 * LuaJIT (`package-manager install luajit`)
 
-# Usage
+# How to install
 
-Just clone this directory into your project, then do:
-
-```
-ln -s LEOS/main.lua make
-cp LEOS/targets.lua .
-```
-
-
-And then edit `targets.lua` to your needs. Then run:
-
-```
-./make NAME_OF_FUNCTION_HERE
+```bash
+cd /some/directory
+git clone https://github.com/rweichler/LEOS.git
+cd /usr/local/bin
+ln -s /some/directory/LEOS/main.lua leos
 ```
 
-To run the corresponding function in `targets.lua`.
-
-(You can instead `ln -s LEOS/Makefile .` if you want to type `make` instead of `./make`)
+Now you have the `leos` command.
 
 ## `targets.lua` example
 
