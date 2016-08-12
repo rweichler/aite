@@ -7,7 +7,7 @@ My build system for making software for jailbroken iOS. It is currently being us
 
 # Dependencies
 
-* OS X
+* macOS
 * LuaJIT (`brew install luajit`)
 * dpkg-deb (`brew install dpkg-deb`)
 
