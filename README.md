@@ -88,7 +88,7 @@ These are the ones included by default, no matter what:
 * `b.src`: Table of all the source files you'll be compiling
 * `b.build_dir`: The folder where you want all the ugly `.o` files to go.
 * `b.output`: Where the executable should go. Default is `a.out`. Add `.dylib` to the end to make a dylib that can be dynamically loaded.
-* `b.defines`: Table listing of where you want `#define`d at compile time.
+* `b.defines`: Table listing of what you want `#define`d at compile time.
 
 Advanced ones: 
 
