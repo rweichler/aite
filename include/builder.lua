@@ -38,13 +38,18 @@ end
 
 function builder:get_cflags()
     local cflags = self._cflags or ''
-    local include = ''
     if self.include_dirs then
         for i,v in ipairs(self.include_dirs) do
-            include = include..' -I'..v
+            cflags = cflags..' -I'..v
         end
     end
-    return cflags..' '..include
+    if self.defines then
+        for i,v in ipairs(self.defines) do
+            cflags = cflags..' -D'..v
+        end
+    end
+            
+    return cflags
 end
 
 function builder:set_sflags(sflags)
