@@ -11,9 +11,9 @@ function debber:print_packageinfo()
     local packageinfo = self.packageinfo
     local debfile = self.output
     if not packageinfo then
-        error("packageinfo not set")
+        error("packageinfo not set", 2)
     elseif not debfile then
-        error("output not set")
+        error("output not set", 2)
     end
     if not packageinfo.Package then
         error("packageinfo.Package not set", 2)
@@ -22,7 +22,7 @@ function debber:print_packageinfo()
     end
     local f, err = io.open(debfile, 'r')
     if not f then
-        error("could not open output file '"..debfile.."' ("..err..")")
+        error("could not open output file '"..debfile.."' ("..err..")", 2)
     end
 
 
