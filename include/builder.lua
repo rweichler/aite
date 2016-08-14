@@ -8,6 +8,9 @@ function builder:new(kind)
     end
     self.build_dir = self.build_dir or '.'
     self.output = self.output or 'a.out'
+    if self.should_skip == nil then
+        self.should_skip = true
+    end
     return self
 end
 
@@ -90,21 +93,29 @@ function builder:compile()
     for i,v in ipairs(src) do
         fs.mkdir(build_dir..'/'..v, true)
         local o = fs.replace_ext(v, 'o')
-        -- compile
-        local compiler = v.compiler or compiler
-        local cflags = cflags..' '..(v.cflags or '')
-        if pretty_print then
-            print('    '..YELLOW(compiler)..RED(' <')..DARK_RED('--- ')..v)
-        end
-        local command = compiler..' '..v..' -c -o '..build_dir..'/'..o..' '..cflags..' '..sflags
-        local success = execute(command) == 0
-
-        if not success then
-            error("Couldn't compile "..v..". Set "..YELLOW("builder.verbose = true").." for more details.", 2)
-        end
 
         -- setup obj
         obj[#obj + 1] = build_dir..'/'..o
+
+        if self.should_skip and fs.isfile(obj[#obj]) and fs.last_modified(obj[#obj]) > fs.last_modified(v) and fs.last_modified(obj[#obj]) > fs.last_modified('targets.lua') then
+            if pretty_print then
+                print('    '..RED('skipping')..' '..v..' (already compiled)')
+            end
+        else
+            -- compile
+            local compiler = v.compiler or compiler
+            local cflags = cflags..' '..(v.cflags or '')
+            if pretty_print then
+                print('    '..YELLOW(compiler)..RED(' <')..DARK_RED('--- ')..v)
+            end
+            local command = compiler..' '..v..' -c -o '..build_dir..'/'..o..' '..cflags..' '..sflags
+            local success = execute(command) == 0
+
+            if not success then
+                error("Couldn't compile "..v..". Set "..YELLOW("builder.verbose = true").." for more details.", 2)
+            end
+        end
+
     end
 
     return obj
@@ -122,6 +133,23 @@ function builder:link(obj)
     local execute = self.verbose and os.pexecute or os.execute
     local pretty_print = not self.verbose and not self.quiet
     local quiet = self.quiet
+
+    if self.should_skip and fs.isfile(output) and fs.last_modified(output) > fs.last_modified('targets.lua') then
+        local output_is_older = true
+        for k,v in pairs(obj) do
+            if fs.last_modified(output) < fs.last_modified(v) then
+                output_is_older = false
+                break
+            end
+        end
+
+        if output_is_older then
+            if pretty_print then
+                print(RED('skipping ')..GREEN(output)..' (already linked)')
+            end
+            return
+        end
+    end
     -- link
     if pretty_print then
         print(YELLOW('link')..DARK_RED(' ---')..RED('> ')..GREEN(output))

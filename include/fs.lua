@@ -28,6 +28,18 @@ function fs.isdir(path)
     end
 end
 
+local ffi = require 'ffi'
+function fs.last_modified(path)
+    local cmd
+    if ffi.os == 'OSX' then
+        cmd = 'stat -f "%Sm" -t "%s" "'..path..'"'
+    else
+        -- linux
+        cmd = 'stat -c %Y "'..path..'"'
+    end
+    return tonumber(os.capture(cmd))
+end
+
 function fs.isfile(path)
     local f = io.open(path, 'r')
     if f then
