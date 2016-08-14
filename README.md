@@ -7,7 +7,10 @@ My build system for making software for jailbroken iOS. It is currently being us
 
 ### Warning / Disclaimer
 
-This is my personal build system, and is a constant work in progress. I have no intention of "releasing" this to the public or supporting it in any way. As such, the API can (and will) break at any point. If you want to use this, then I'd suggest forking this once and just building on top of it yourself, as most Lua projects are done.
+If you're using this to build my projects, then make sure this is updated, because the API is constantly changing.
+
+This is my personal build system, for my personal projects. It is a constant work in progress. I have no intention of "releasing" this to the public any time soon. As such, the API can (and will) break at any point. If you want to use this, then I'd suggest forking this once and just building on top of it yourself, as most Lua projects are done.
+
 
 # Dependencies
 
