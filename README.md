@@ -76,17 +76,17 @@ So there are two ways to do this.
 
 I'd recommend always having 'apple' in there. That way you get these:
 
-* `b.frameworks` (table): Public/Private Apple frameworks you want to link with (e.g. `{'Foundation', 'UIKit', 'AppSupport'}`
-* `b.archs` (table): table listing of the archs you want to use (e.g. `{'armv7', 'arm64'}` or `{'x86_64'}`)
-* `b.sdk` (string): name of the SDK you wanna link against (e.g. `iphoneos` or `macosx`)
+* `b.frameworks` (table): Public/Private Apple frameworks you want to link with. e.g. `{'Foundation', 'UIKit', 'AppSupport'}`
+* `b.archs` (table): table listing of the archs you want to use. e.g. `{'armv7', 'arm64'}` or `{'x86_64'}`
+* `b.sdk` (string): name of the SDK you wanna link against. e.g. `iphoneos` or `macosx`
 * `b.sdk_path` (string): Optional. The full path to the iPhoneOS8.1.sdk (or whatever), in case if you don't have Xcode.
 
 
 These are the ones included by default, no matter what:
 
-* `b.compiler` (string): e.g. `gcc` or `clang`
-* `b.src` (table): The source files you'll be compiling
-* `b.build_dir` (string): The folder where you want all the ugly `.o` files to go.
+* `b.compiler` (string): e.g. `'gcc'` or `'clang'`
+* `b.src` (table): The source files you'll be compiling. e.g. `{'main.m'}` or `fs.scandir('*.m')`
+* `b.build_dir` (string): The folder where you want all the ugly `.o` files to go. e.g. `'build'`
 * `b.output` (string): Where the executable should go. Add `.dylib` to the end to make a dylib that can be dynamically loaded.
 * `b.defines` (table): What you want `#define`d at compile time.
 
