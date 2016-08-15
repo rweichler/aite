@@ -1,18 +1,8 @@
 # Aite
 
-I'd like to say I'm really sorry you have to use this to build my projects. I really am. But come on, makefiles suck. You can't really blame me for that, can you? I promise this isn't that hard to install.
+i know you're probably groaning right now, and im sorry. i am. but makefiles BLOW. and this isnt that hard to install, its just 4 commands:
 
-### Warning / Disclaimer
-
-This is a wip, I don't care about backwards compatibility, blahblahblah
-
-# Dependencies
-
-* macOS
-* LuaJIT (`brew install luajit`)
-* dpkg-deb (`brew install dpkg-deb`)
-
-# How to install
+(remember to change `/some/directory` to an actual directory on your computer)
 
 ```bash
 cd /some/directory
@@ -21,9 +11,19 @@ cd /usr/local/bin
 ln -s /some/directory/aite/main.lua aite
 ```
 
-Now you have the `aite` command.
+boom. now you can say `aite` to your computer.
 
-## `targets.lua` example
+# Dependencies
+
+* macOS
+* LuaJIT (`brew install luajit`)
+* dpkg-deb (`brew install dpkg-deb`)
+
+## WTF is `targets.lua`?
+
+its basically `Makefile`.
+
+right now its way uglier than theos, but LOOK AT THE LEVEL OF CONTROL YOU HAVE. HOLY SHIT!!
 
 ```lua
 -- this is called when `make` is
@@ -65,6 +65,8 @@ end
 If your project was just a bunch of `.m` files, it would compile all of them and then link them with UIKit, and then give you a dylib.
 
 Then, it would make a deb, that you could put on your repo.
+
+# Documentation
 
 ## Using builder
 
@@ -118,7 +120,6 @@ d:make_deb()
 ```
 
 
-## Things to keep in mind
+# Things to keep in mind
 
-* This only works with C/C++/Objective-C code. Logos isn't supported yet.
-* In my example I only had one builder. But you can have as many as you want! If you have `c` and `cpp` files that require different compilers, then you can just use two builders to compile them, and then `table.merge` them and pass them to a linker.
+* Logos isn't supported yet. Maybe it never will be.
