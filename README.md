@@ -1,5 +1,7 @@
 # Lua Theos
 
+*"This shit ain't for pussies"* - Tony the Tiger
+
 ![](leos.png)
 
 My build system for making software for jailbroken iOS. It is currently being used to build:
