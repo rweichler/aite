@@ -1,5 +1,7 @@
 #!/usr/bin/env luajit
 
+BUILD_RULES_FILENAME = 'how2build.lua'
+
 function os.capture(cmd)
   local f = assert(io.popen(cmd, 'r'))
   local s = assert(f:read('*a'))
@@ -42,7 +44,7 @@ package.path = package.path..';'..folder..'/?.lua'..
 
 require('include/init')
 
-dofile('targets.lua')
+dofile(BUILD_RULES_FILENAME)
 local f = _G[target]
 if f then
     local x = {...}

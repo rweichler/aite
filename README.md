@@ -19,7 +19,7 @@ boom. now you can say `aite` to your computer.
 * LuaJIT (`brew install luajit`)
 * dpkg-deb (`brew install dpkg-deb`)
 
-## WTF is `targets.lua`?
+## WTF is `how2build.lua`?
 
 its basically `Makefile`.
 

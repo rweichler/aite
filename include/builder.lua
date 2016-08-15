@@ -97,7 +97,7 @@ function builder:compile()
         -- setup obj
         obj[#obj + 1] = build_dir..'/'..o
 
-        if self.should_skip and fs.isfile(obj[#obj]) and fs.last_modified(obj[#obj]) > fs.last_modified(v) and fs.last_modified(obj[#obj]) > fs.last_modified('targets.lua') then
+        if self.should_skip and fs.isfile(obj[#obj]) and fs.last_modified(obj[#obj]) > fs.last_modified(v) and fs.last_modified(obj[#obj]) > fs.last_modified(BUILD_RULES_FILENAME) then
             if pretty_print then
                 print('    '..RED('skipping')..' '..v..' (already compiled)')
             end
