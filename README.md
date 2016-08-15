@@ -11,14 +11,15 @@ My build system for making software for jailbroken iOS. It is currently being us
 
 ### Warning / Disclaimer
 
+I don't care about backwards compatibility.
+
 #### Building my projects
 
-Make sure this is updated, because the API is constantly changing.
+Make sure this is updated, or else shit will break.
 
 #### Building your projects
 
-Keep in mind this is my personal build system, for my personal projects. The API can (and will) break at any point. If you want to use this, then I'd suggest forking this once and just building on top of it yourself, to save the headache.
-
+Don't update this, or else shit will break.
 
 # Dependencies
 
