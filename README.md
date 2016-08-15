@@ -11,10 +11,7 @@ My build system for making software for jailbroken iOS. It is currently being us
 
 ### Warning / Disclaimer
 
-I don't care about backwards compatibility.
-
-* Building my projects: Make sure this is updated, or else shit will break.
-* Building your projects: Don't. It's not ready yet.
+This is a wip, I don't care about backwards compatibility, blahblahblah
 
 # Dependencies
 
