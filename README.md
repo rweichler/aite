@@ -13,13 +13,8 @@ My build system for making software for jailbroken iOS. It is currently being us
 
 I don't care about backwards compatibility.
 
-#### Building my projects
-
-Make sure this is updated, or else shit will break.
-
-#### Building your projects
-
-Don't update this, or else shit will break.
+* Building my projects: Make sure this is updated, or else shit will break.
+* Building your projects: Don't.
 
 # Dependencies
 
