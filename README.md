@@ -78,7 +78,7 @@ I'd recommend always having 'apple' in there. That way you get these:
 
 * `b.frameworks` (table): Public/Private Apple frameworks you want to link with. e.g. `{'Foundation', 'UIKit', 'AppSupport'}`
 * `b.archs` (table): table listing of the archs you want to use. e.g. `{'armv7', 'arm64'}` or `{'x86_64'}`
-* `b.sdk` (string): name of the SDK you wanna link against. e.g. `iphoneos` or `macosx`
+* `b.sdk` (string): name of the SDK you wanna link against. e.g. `'iphoneos'` or `'macosx'`
 * `b.sdk_path` (string): Optional. The full path to the iPhoneOS8.1.sdk (or whatever), in case if you don't have Xcode.
 
 
