@@ -14,7 +14,7 @@ My build system for making software for jailbroken iOS. It is currently being us
 I don't care about backwards compatibility.
 
 * Building my projects: Make sure this is updated, or else shit will break.
-* Building your projects: Don't.
+* Building your projects: Don't. It's not ready yet.
 
 # Dependencies
 
