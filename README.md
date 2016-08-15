@@ -1,13 +1,6 @@
 # Aight
 
-*"This shit ain't for pussies"* - Tony the Tiger
-
-![](leos.png)
-
-My build system for making software for jailbroken iOS. It is currently being used to build:
-
-* [Lucy](http://github.com/rweichler/lucy)
-* EqualizerEverywhere
+I'd like to say I'm really sorry you have to use this to build my projects. I really am. But come on, makefiles suck. You can't really blame me for that, can you? I promise this isn't that hard to install.
 
 ### Warning / Disclaimer
 
