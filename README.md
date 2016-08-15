@@ -1,5 +1,7 @@
 # Lua Theos
 
+![](leos.png)
+
 My build system for making software for jailbroken iOS. It is currently being used to build:
 
 * [Lucy](http://github.com/rweichler/lucy)
