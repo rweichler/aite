@@ -1,4 +1,4 @@
-# Lua Theos
+# Aight
 
 *"This shit ain't for pussies"* - Tony the Tiger
 
@@ -23,14 +23,12 @@ This is a wip, I don't care about backwards compatibility, blahblahblah
 
 ```bash
 cd /some/directory
-git clone https://github.com/rweichler/LEOS.git
+git clone https://github.com/rweichler/aight
 cd /usr/local/bin
-ln -s /some/directory/LEOS/main.lua leos
+ln -s /some/directory/aight/main.lua aight
 ```
 
-Now you have the `leos` command.
-
-You can honestly name it whatever you want, though. I go with `mak` because I'm used to typing `make` lol.
+Now you have the `aight` command.
 
 ## `targets.lua` example
 
