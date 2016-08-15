@@ -26,7 +26,7 @@ its basically `Makefile`.
 right now its way uglier than theos, but LOOK AT THE LEVEL OF CONTROL YOU HAVE. HOLY SHIT!!
 
 ```lua
--- this is called when `make` is
+-- this is called when `aite` is
 -- called with no arguments
 function default()
     -- cleanup old layout folder
@@ -35,6 +35,7 @@ function default()
     -- setup compiler
     local b = builder('apple')
     b.compiler = 'clang'
+    b.build_dir = 'build' -- put all .o files in 'build'
     b.src = fs.scandir('*.m') --compile all .m files in current directory
     b.frameworks = {
         'UIKit',
@@ -62,9 +63,7 @@ function default()
 end
 ```
 
-If your project was just a bunch of `.m` files, it would compile all of them and then link them with UIKit, and then give you a dylib.
-
-Then, it would make a deb, that you could put on your repo.
+You can have multiple functions in there, for different stuff. You'd call it with `aite function_name`. `aite` by itself translates to `aite default`.
 
 # Documentation
 
@@ -85,18 +84,18 @@ I'd recommend always having 'apple' in there. That way you get these:
 
 These are the ones included by default, no matter what:
 
-* `b.compiler`: e.g. `gcc` or `clang`
-* `b.src`: Table of all the source files you'll be compiling
-* `b.build_dir`: The folder where you want all the ugly `.o` files to go.
-* `b.output`: Where the executable should go. Default is `a.out`. Add `.dylib` to the end to make a dylib that can be dynamically loaded.
-* `b.defines`: Table listing of what you want `#define`d at compile time.
+* `b.compiler` (string): e.g. `gcc` or `clang`
+* `b.src` (table): The source files you'll be compiling
+* `b.build_dir` (string): The folder where you want all the ugly `.o` files to go.
+* `b.output` (string): Where the executable should go. Add `.dylib` to the end to make a dylib that can be dynamically loaded.
+* `b.defines` (table): What you want `#define`d at compile time.
 
 Advanced ones: 
 
-* `b.linker`: The linker. If this isn't set, it will use `b.compiler`.
-* `b.include_dirs`: table listing all of the folders you wanna include from (like rpetrich's iphoneheaders or something)
-* `b.library_dirs`: table listing of all the folders you wanna look in for libraries.
-* `b.libraries`: table listing of the libraries you want to link to.
+* `b.linker` (string): The linker. If this isn't set, it will use `b.compiler`.
+* `b.include_dirs` (table): the folders you wanna include from (like rpetrich's iphoneheaders or something)
+* `b.library_dirs` (table): the folders you wanna look in for libraries.
+* `b.libraries` (table): the libraries you want to link to.
 
 ## Using debber
 
@@ -117,6 +116,12 @@ Run it using this:
 
 ```lua
 d:make_deb()
+```
+
+Calculate the md5sum, size, etc so you can put it in your repo and print it out like this:
+
+```lua
+d:print_packageinfo()
 ```
 
 

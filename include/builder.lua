@@ -6,8 +6,6 @@ function builder:new(kind)
         local sub = require('include/builders/'..kind)
         self = self:subclass(sub)
     end
-    self.build_dir = self.build_dir or '.'
-    self.output = self.output or 'a.out'
     if self.should_skip == nil then
         self.should_skip = true
     end
@@ -66,14 +64,14 @@ end
 
 function builder:compile()
     -- args
-    local compiler = assert(self.compiler, 'compiler not set (e.g. "clang" or "gcc" or "javac")')
-    local src = assert(self.src, 'src not set (e.g. {"main.c"})')
+    local compiler = self.compiler or error('builder.compiler not set (e.g. "clang")')
+    local src = self.src or error('builder.src not set (e.g. {"main.c"} or fs.scandir("*.m"))', 2)
     local linker = compiler or self.linker
-    local build_dir = self.build_dir
+    local build_dir = self.build_dir or error('builder.build_dir not set (e.g. "build")', 2)
     local cflags = self.cflags
     local ldflags = self.ldflags
     local sflags = self.sflags
-    local output = self.output
+    local output = self.output or error('builder.output not set (e.g. "tweak.dylib" or "a.out")', 2)
 
     -- flags
     local execute = self.verbose and os.pexecute or os.execute
