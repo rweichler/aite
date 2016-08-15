@@ -134,7 +134,7 @@ function builder:link(obj)
     local pretty_print = not self.verbose and not self.quiet
     local quiet = self.quiet
 
-    if self.should_skip and fs.isfile(output) and fs.last_modified(output) > fs.last_modified('targets.lua') then
+    if self.should_skip and fs.isfile(output) and fs.last_modified(output) > fs.last_modified(BUILD_RULES_FILENAME) then
         local output_is_older = true
         for k,v in pairs(obj) do
             if fs.last_modified(output) < fs.last_modified(v) then
