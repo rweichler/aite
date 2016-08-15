@@ -1,4 +1,4 @@
-# Aight
+# Aite
 
 I'd like to say I'm really sorry you have to use this to build my projects. I really am. But come on, makefiles suck. You can't really blame me for that, can you? I promise this isn't that hard to install.
 
@@ -16,12 +16,12 @@ This is a wip, I don't care about backwards compatibility, blahblahblah
 
 ```bash
 cd /some/directory
-git clone https://github.com/rweichler/aight
+git clone https://github.com/rweichler/aite
 cd /usr/local/bin
-ln -s /some/directory/aight/main.lua aight
+ln -s /some/directory/aite/main.lua aite
 ```
 
-Now you have the `aight` command.
+Now you have the `aite` command.
 
 ## `targets.lua` example
 
