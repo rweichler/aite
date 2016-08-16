@@ -1,6 +1,6 @@
 # Aite
 
-i know you're probably groaning right now, and im sorry. i am. but makefiles BLOW. and this isnt that hard to install, its just 4 commands:
+i know you're probably groaning right now, and im sorry. i am. but makefiles [BLOW](https://www.reddit.com/r/jailbreak/comments/2u8wg5/sauriks_thoughts_on_comexs_substitute/co81ks1). and this isnt that hard to install, its just 4 commands:
 
 (remember to change `/some/directory` to an actual directory on your computer)
 
