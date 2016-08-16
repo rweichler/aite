@@ -21,9 +21,7 @@ boom. now you can say `aite` to your computer.
 
 ## WTF is `how2build.lua`?
 
-its basically `Makefile`.
-
-right now its way uglier than theos, but LOOK AT THE LEVEL OF CONTROL YOU HAVE. HOLY SHIT!!
+its basically `Makefile`. heres an example:
 
 ```lua
 -- this is called when `aite` is
