@@ -125,4 +125,4 @@ d:print_packageinfo()
 
 # Things to keep in mind
 
-* Logos isn't supported yet. Maybe it never will be.
+* Logos isn't supported yet.
