@@ -1,10 +1,11 @@
 builder = object()
 
 function builder:new(kind)
-    local self = object.new(self, kind)
     if kind then
         local sub = require('include/builders/'..kind)
-        self = self:subclass(sub)
+        self = sub:new()
+    else
+        self = object.new(self, kind)
     end
     if self.should_skip == nil then
         self.should_skip = true

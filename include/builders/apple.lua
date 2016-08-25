@@ -1,4 +1,5 @@
-local builder = {}
+local super = builder
+local builder = super()
 
 function builder:get_sdk_path()
     if self._sdk_path then
@@ -14,7 +15,7 @@ function builder:set_sdk_path(sdk_path)
 end
 
 function builder:get_sflags()
-    local sflags = self.super.get_sflags(self)
+    local sflags = super.get_sflags(self)
     local arch = ''
     local isysroot = self.sdk_path and '-isysroot "'..self.sdk_path..'"' or ''
     if self.archs then
@@ -35,7 +36,7 @@ function builder:get_is_making_dylib()
 end
 
 function builder:get_ldflags()
-    local ldflags = self.super.get_ldflags(self)
+    local ldflags = super.get_ldflags(self)
     local dylib = self.is_making_dylib and '-dynamiclib' or ''
     local frameworks = ''
     if self.frameworks then
@@ -53,7 +54,7 @@ function builder:get_ldflags()
 end
 
 function builder:link(obj)
-    self.super.link(self, obj)
+    super.link(self, obj)
 
     -- flags
     local execute = self.verbose and os.pexecute or os.execute
