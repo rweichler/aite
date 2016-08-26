@@ -65,6 +65,7 @@ end
 
 function builder:compile()
     -- args
+    local output = self.output or error('builder.output not set (e.g. "tweak.dylib" or "a.out")', 2)
     local compiler = self.compiler or error('builder.compiler not set (e.g. "clang")')
     local src = self.src or error('builder.src not set (e.g. {"main.c"} or fs.scandir("*.m"))', 2)
     local linker = compiler or self.linker
@@ -72,7 +73,6 @@ function builder:compile()
     local cflags = self.cflags
     local ldflags = self.ldflags
     local sflags = self.sflags
-    local output = self.output or error('builder.output not set (e.g. "tweak.dylib" or "a.out")', 2)
 
     -- flags
     local execute = self.verbose and os.pexecute or os.execute

@@ -15,6 +15,15 @@ c.DARK_CYAN =   '0;36'
 
 for k,v in pairs(c) do
     _G[k] = function(str)
-        return '\x1B['..v..'m'..str..'\x1B[0m'
+        if c.is_ps1 then
+            -- i also use this for my ps1 in bash
+            -- so i just do the check in here.
+            return '\\[\x1B['..v..'m\\]'..str..'\\[\x1B[0m\\]'
+        else
+            -- this is what usually is printed
+            return '\x1B['..v..'m'..str..'\x1B[0m'
+        end
     end
 end
+
+return c

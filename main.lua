@@ -49,7 +49,7 @@ local f = _G[target]
 if f then
     local x = {...}
     table.remove(x, 1)
-    local success, err = pcall(f, unpack(x))
+    local success, err = xpcall(f, debug.traceback,  unpack(x))
     if not success then
         print(RED("ERROR: ")..err)
     end
