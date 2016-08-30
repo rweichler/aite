@@ -20,7 +20,9 @@ end
 
 function builder:get_is_making_dylib()
     local suffix = '.dylib'
-    if string.has_suffix(self.output, '.dylib') then
+    if string.has_suffix(self.output, '.dylib') or
+       string.has_suffix(self.output, '.so')
+    then
         return true
     else
         return false
@@ -69,7 +71,9 @@ function builder:get_cflags()
             cflags = cflags..' -D'..v
         end
     end
-            
+    if self.is_making_dylib and ffi.os == 'Linux' then
+        cflags = cflags..' -fPIC'
+    end
     return cflags
 end
 
