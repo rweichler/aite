@@ -26,18 +26,8 @@ function builder:get_sflags()
     return sflags..' '..arch..' '..isysroot
 end
 
-function builder:get_is_making_dylib()
-    local suffix = '.dylib'
-    if string.has_suffix(self.output, '.dylib') then
-        return true
-    else
-        return false
-    end
-end
-
 function builder:get_ldflags()
     local ldflags = super.get_ldflags(self)
-    local dylib = self.is_making_dylib and '-dynamiclib' or ''
     local frameworks = ''
     if self.frameworks then
         frameworks = frameworks..' -F/System/Library/PrivateFrameworks'
@@ -50,7 +40,7 @@ function builder:get_ldflags()
         ldflags = ldflags..' -Wl,-segalign,4000'
     end
 
-    return ldflags..' '..frameworks..' '..dylib
+    return ldflags..' '..frameworks..' '
 end
 
 function builder:link(obj)

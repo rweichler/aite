@@ -18,9 +18,28 @@ function builder:set_ldflags(ldflags)
     self._ldflags = ldflags
 end
 
+function builder:get_is_making_dylib()
+    local suffix = '.dylib'
+    if string.has_suffix(self.output, '.dylib') then
+        return true
+    else
+        return false
+    end
+end
+
 function builder:get_ldflags()
     local ldflags = self._ldflags or ''
     local libraries = ''
+    local dylib
+    if self.is_making_dylib then
+        if ffi.os == 'OSX' then
+            dylib = '-dynamiclib'
+        else
+            dylib = '-shared'
+        end
+    else
+        dylib = ''
+    end
     if self.library_dirs then
         for i,v in ipairs(self.library_dirs) do
             libraries = libraries..' -L'..v
@@ -31,7 +50,7 @@ function builder:get_ldflags()
             libraries = libraries..' -l'..v
         end
     end
-    return ldflags..' '..libraries
+    return ldflags..' '..libraries..' '..dylib
 end
 
 function builder:set_cflags(cflags)
