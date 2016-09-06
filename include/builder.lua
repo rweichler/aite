@@ -102,12 +102,6 @@ function builder:compile()
     local pretty_print = not self.verbose and not self.quiet
     local quiet = self.quiet
 
-    -- printing shit
-    if not quiet then
-        print(PINK('building '..table.concat(self.src, ', ')..':'))
-    end
-
-
     -- actual shit
 
     local obj = {}
