@@ -13,6 +13,12 @@ ln -s /some/directory/aite/main.lua aite
 
 boom. now you can say `aite` to your computer.
 
+# Compatibility
+
+* Mac OS X
+* Linux
+* Windows?? (It worked in Cygwin...)
+
 # Dependencies
 
 * macOS
