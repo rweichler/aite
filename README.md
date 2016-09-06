@@ -21,9 +21,7 @@ boom. now you can say `aite` to your computer.
 
 # Dependencies
 
-* macOS
-* LuaJIT (`brew install luajit`)
-* dpkg-deb (`brew install dpkg-deb`)
+* LuaJIT
 
 ## WTF is `how2build.lua`?
 
