@@ -63,19 +63,6 @@ Advanced ones:
 * `b.library_dirs` (table): the folders you wanna look in for libraries.
 * `b.libraries` (table): the libraries you want to link to.
 
-### For making jailbreak tweaks
-
-```lua
-local b = builder('apple')
-```
-
-* `b.frameworks` (table): Public/Private Apple frameworks you want to link with. e.g. `{'Foundation', 'UIKit', 'AppSupport'}`
-* `b.archs` (table): table listing of the archs you want to use. e.g. `{'armv7', 'arm64'}` or `{'x86_64'}`
-* `b.sdk` (string): name of the SDK you wanna link against. e.g. `'iphoneos'` or `'macosx'`
-* `b.sdk_path` (string): Optional. The full path to the iPhoneOS8.1.sdk (or whatever), in case if you don't have Xcode.
-
-Have `b.output` be something that ends with `.dylib`
-
 ## Convenience functions
 
 Let's say you're trying to build some monolithic codebase with a bunch of nested C++ files.
@@ -95,7 +82,22 @@ b.src = table.merge(
 
 Add `TIME_IT = true` to the very top of your file in order to print out how long your build took.
 
-## Using debber
+## Making jailbreak tweaks
+
+### Builder
+
+```lua
+local b = builder('apple')
+```
+
+* `b.frameworks` (table): Public/Private Apple frameworks you want to link with. e.g. `{'Foundation', 'UIKit', 'AppSupport'}`
+* `b.archs` (table): table listing of the archs you want to use. e.g. `{'armv7', 'arm64'}` or `{'x86_64'}`
+* `b.sdk` (string): name of the SDK you wanna link against. e.g. `'iphoneos'` or `'macosx'`
+* `b.sdk_path` (string): Optional. The full path to the iPhoneOS8.1.sdk (or whatever), in case if you don't have Xcode.
+
+Remember to have `b.output` be something that ends with `.dylib`. And you probably want to link with libsubstrate.dylib too.
+
+### Debber
 
 Create it using this:
 
@@ -108,11 +110,6 @@ d.packageinfo = { -- equivalent of the DEBIAN/control file
     Package = 'yee.yee.yee',
     Version = '1.0',
 }
-```
-
-Run it using this:
-
-```lua
 d:make_deb()
 ```
 
@@ -123,6 +120,6 @@ d:print_packageinfo()
 ```
 
 
-# Things to keep in mind
+### Things to keep in mind
 
 * Logos isn't supported yet.
