@@ -17,7 +17,7 @@ NORMAL = '\x1B[0m'
 
 for k,v in pairs(c) do
     local head, tail
-    if c.is_ps1 then
+    if IS_PS1 then
         -- i also use this for my ps1 in bash
         -- so i just do the check in here.
         head = '\\[\x1B['..v..'m\\]'
