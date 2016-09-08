@@ -8,8 +8,7 @@ this is really good for making jailbreak tweaks and LuaJIT ffi bindings, but it 
 
 ```bash
 git clone https://github.com/rweichler/aite /some/directory/aite
-cd /usr/local/bin
-ln -s /some/directory/aite/main.lua aite
+ln -s /some/directory/aite/main.lua /usr/local/bin/aite
 ```
 
 boom. now you can say `aite` to your computer.
