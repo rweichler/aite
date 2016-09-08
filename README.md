@@ -53,7 +53,7 @@ local b = builder()
 * `b.compiler` (string): e.g. `'gcc'` or `'clang'`
 * `b.src` (table): The source files you'll be compiling. e.g. `{'main.m'}` or `fs.scandir('*.m')`
 * `b.build_dir` (string): The folder where you want all the ugly `.o` files to go. e.g. `'build'`
-* `b.output` (string): Where the executable should go. Add `.dylib` or `.so` to the end to dynamic library.
+* `b.output` (string): Where the executable should go. Add `.dylib` or `.so` or `.dll` to the end to make a dynamic library.
 * `b.defines` (table): What you want `#define`d at compile time.
 
 Advanced ones: 
