@@ -177,6 +177,7 @@ function builder:link(obj)
 
         if output_is_older then
             if pretty_print then
+                io_write('    ')
                 io_write(DARK_CYAN())
                 io_write('skipping ')
                 io_write(GREEN())
@@ -191,6 +192,7 @@ function builder:link(obj)
     end
     -- link
     if pretty_print then
+        io_write('    ')
         io_write(YELLOW())
         if self.linker then
             io_write(linker)
