@@ -12,10 +12,20 @@ function fs.scandir(directory)
     return t
 end
 
+local find = string.find
+local function lastIndexOf(haystack, needle)
+    local i, j
+    local k = 0
+    repeat
+        i = j
+        j, k = find(haystack, needle, k + 1, true)
+    until j == nil
+
+    return i
+end
+
 function fs.replace_ext(path, ext)
-    local split = string.split(path, '.')
-    split[#split] = ext
-    return table.concat(split, '.')
+    return string.sub(path, 1, lastIndexOf(path, '.'))..ext
 end
 
 function fs.isdir(path)
@@ -28,6 +38,7 @@ function fs.isdir(path)
     end
 end
 
+--[[
 local ffi = require 'ffi'
 function fs.last_modified(path)
     local cmd
@@ -39,6 +50,10 @@ function fs.last_modified(path)
     end
     return tonumber(os.capture(cmd))
 end
+]]
+
+local ffi_stat = require 'ffi.stat'
+fs.last_modified = ffi_stat.last_modified
 
 function fs.isfile(path)
     local f = io.open(path, 'r')
@@ -51,18 +66,10 @@ function fs.isfile(path)
 end
 
 function fs.mkdir(path, skip_last)
-    local folder = ''
-    local split = string.split(path, '/')
-    for i,v in ipairs(split) do
-        if skip_last and i == #split then
-            break
-        end
-        folder = folder..v..'/'
-        if os.execute('mkdir -p "'..folder..'"') ~= 0 then
-            return false
-        end
+    if skip_last then
+        path = string.sub(path, 1, lastIndexOf(path, '/') - 1)
     end
-    return true
+    os.execute('mkdir -p '..path)
 end
 
 ffi.cdef[[
