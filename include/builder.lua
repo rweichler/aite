@@ -192,9 +192,12 @@ function builder:link(obj)
     -- link
     if pretty_print then
         io_write(YELLOW())
-        io_write('link')
-        io_write(DARK_RED())
-        io_write(' ---> ')
+        if self.linker then
+            io_write(linker)
+            io_write(' ---> ')
+        else
+            io_write('---> ')
+        end
         io_write(GREEN())
         io_write(output)
         io_write(NORMAL)
