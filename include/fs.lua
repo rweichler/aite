@@ -63,7 +63,12 @@ end
 
 function fs.mkdir(path, skip_last)
     if skip_last then
-        path = string.sub(path, 1, lastIndexOf(path, '/') - 1)
+        local last_index = lastIndexOf(path, '/')
+        if not last_index then
+            -- means we're doing `mkdir .`
+            return true
+        end
+            path = string.sub(path, 1, last_index - 1)
     end
     return os.execute('mkdir -p '..path) == 0
 end

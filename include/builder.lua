@@ -100,10 +100,11 @@ end
 local io_write = io.write
 local fs_isfile = fs.isfile
 function builder:compile()
+    local err = ''
     -- args
     local output = self.output or error('builder.output not set (e.g. "tweak.dylib" or "a.out")', 2)
-    local compiler = self.compiler or error('builder.compiler not set (e.g. "clang")')
-    local src = self.src or error('builder.src not set (e.g. {"main.c"} or fs.scandir("*.m"))', 2)
+    local compiler = self.compiler or error('builder.compiler not set (e.g. "gcc" or "clang")')
+    local src = self.src or error('builder.src not set (e.g. {"main.c"} or fs.scandir("*.c"))', 2)
     local linker = compiler or self.linker
     local build_dir = self.build_dir or error('builder.build_dir not set (e.g. "build")', 2)
     local cflags = self.cflags
