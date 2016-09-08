@@ -87,6 +87,16 @@ function builder:get_sflags()
     return sflags
 end
 
+local math_floor = math.floor
+local function num_chars(num)
+    local count = 0
+    while num > 0 do
+        count = count + 1
+        num = math_floor(num / 10)
+    end
+    return count
+end
+
 local io_write = io.write
 function builder:compile()
     -- args
@@ -133,6 +143,16 @@ function builder:compile()
             local cflags = cflags..' '..(v.cflags or '')
             if pretty_print then
                 io_write('    ')
+                if self.show_count or #src > 9 and self.show_count == nil then
+                    for i=1,num_chars(#src)-num_chars(i) do
+                        io_write(' ')
+                    end
+                    io_write(PINK())
+                    io_write(i)
+                    io_write('/')
+                    io_write(#src)
+                    io_write(' ')
+                end
                 io_write(YELLOW())
                 io_write(compiler)
                 io_write(NORMAL)
