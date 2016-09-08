@@ -69,7 +69,7 @@ function fs.mkdir(path, skip_last)
     if skip_last then
         path = string.sub(path, 1, lastIndexOf(path, '/') - 1)
     end
-    os.execute('mkdir -p '..path)
+    return os.execute('mkdir -p '..path) == 0
 end
 
 ffi.cdef[[
