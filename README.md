@@ -5,8 +5,7 @@ this is my personal build system I use to make all of my projects (and sometimes
 # Installing
 
 ```bash
-cd /some/directory
-git clone https://github.com/rweichler/aite
+git clone https://github.com/rweichler/aite /some/directory/aite
 cd /usr/local/bin
 ln -s /some/directory/aite/main.lua aite
 ```
