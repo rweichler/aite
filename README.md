@@ -4,6 +4,9 @@ this is my personal build system I use to make all of my projects (and sometimes
 
 this is really good for making jailbreak tweaks and LuaJIT ffi bindings, but it can be used for anything really
 
+it's also really fast for building other people's projects (in terms of actual build time, and figuring out what you need to do)
+if you don't want to deal with Make/CMake/autotools/premake
+
 # Installing
 
 ```bash
