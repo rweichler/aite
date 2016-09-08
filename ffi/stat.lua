@@ -9,7 +9,6 @@ local has_ffi_bindings = false
 
 local stat = {}
 
-print(ffi.sizeof('long'))
 local statbuf = ffi.new('long[18]')
 function stat.last_modified(path)
     -- speedier for my comp
