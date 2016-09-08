@@ -57,7 +57,7 @@ if f then
 else
     local success, err = xpcall(dofile, debug.traceback, BUILD_RULES_FILENAME)
     if not success then
-        print(RED('ERROR: ')..err)
+        print(RED('ERROR: ')..tostring(err))
         return
     end
      f = _G[target]
@@ -68,7 +68,7 @@ if f then
     table.remove(x, 1)
     local success, err = xpcall(f, debug.traceback,  unpack(x))
     if not success then
-        print(RED("ERROR: ")..err..'\n'..GREEN('This also might be caused by an outdated version of aite. Update aite with the command `aite update`.'))
+        print(RED("ERROR: ")..tostring(err)..'\n'..GREEN('Keep in mind this might be caused by an outdated version of aite. Update aite with the command `aite update`.'))
     end
 else
     print("No function for '"..target.."' found :(")
