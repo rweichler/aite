@@ -10,14 +10,16 @@ local has_ffi_bindings = false
 local stat = {}
 
 local statbuf = ffi.new('long[18]')
+local C = ffi.C
+local is_64bit_osx = ffi.os == 'OSX' and ffi.arch == 'x64'
+
 function stat.last_modified(path)
     -- speedier for my comp
-    if ffi.os == 'OSX' and ffi.arch == 'x64' then
-        if ffi.C.stat(path, statbuf) == -1 then
+    if is_64bit_osx then
+        if C.stat(path, statbuf) == -1 then
             error('bad path for stat')
         end
-        local result = statbuf[5] -- could be 7? it should be 6
-        return result
+        return statbuf[5] -- could be 7? it should be 6
     else -- fallback to slow command
         local cmd
         if ffi.os == 'OSX' then
