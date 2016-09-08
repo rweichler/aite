@@ -1,7 +1,9 @@
 
-function os.pexecute(...)
-    print(...)
-    return os.execute(...)
+local io_write = io.write
+function os.pexecute(cmd)
+    io_write(cmd)
+    io_write('\n')
+    return os.execute(cmd)
 end
 
 function os.capture(cmd)
