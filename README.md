@@ -1,6 +1,10 @@
 # Aite
 
-i know you're probably groaning right now, and im sorry. i am. but this build system works for me. and this isnt that hard to install, its just 4 commands:
+this is my personal build system I use to make all of my projects (and sometimes other people's)
+
+anyway, i know you're probably groaning right now since you're probably here because i forced it on you. and im sorry. i am.
+
+i promise this isnt that hard to install, its just 4 commands:
 
 (remember to change `/some/directory` to an actual directory on your computer)
 
