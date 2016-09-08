@@ -68,7 +68,7 @@ function fs.mkdir(path, skip_last)
             -- means we're doing `mkdir .`
             return true
         end
-            path = string.sub(path, 1, last_index - 1)
+        path = string.sub(path, 1, last_index - 1)
     end
     return os.execute('mkdir -p '..path) == 0
 end
