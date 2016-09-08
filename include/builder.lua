@@ -118,12 +118,14 @@ function builder:compile()
         if self.should_skip and fs.isfile(obj[#obj]) and fs.last_modified(obj[#obj]) > fs.last_modified(v) and fs.last_modified(obj[#obj]) > fs.last_modified(BUILD_RULES_FILENAME) then
             if pretty_print then
                 io_write('    ')
-                io_write(RED())
+                io_write(DARK_CYAN())
                 io_write('skipping')
                 io_write(NORMAL)
                 io_write(' ')
                 io_write(v)
+                io_write(DARK_CYAN())
                 io_write(' (already compiled)\n')
+                io_write(NORMAL)
             end
         else
             -- compile
@@ -176,12 +178,14 @@ function builder:link(obj)
 
         if output_is_older then
             if pretty_print then
-                io_write(RED())
+                io_write(DARK_CYAN())
                 io_write('skipping ')
                 io_write(GREEN())
                 io_write(output)
                 io_write(NORMAL)
+                io_write(DARK_CYAN())
                 io_write(' (already linked)\n')
+                io_write(NORMAL)
             end
             return
         end
