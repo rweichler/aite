@@ -2,7 +2,7 @@
 
 this is my personal build system I use to make all of my projects (and sometimes other people's)
 
-this is really good for making jailbreak tweaks and LuaJIT ffi bindings.
+this is really good for making jailbreak tweaks and LuaJIT ffi bindings, but it can be used for anything really
 
 # Installing
 
