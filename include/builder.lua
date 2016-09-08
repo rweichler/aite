@@ -87,6 +87,7 @@ function builder:get_sflags()
     return sflags
 end
 
+local io_write = io.write
 function builder:compile()
     -- args
     local output = self.output or error('builder.output not set (e.g. "tweak.dylib" or "a.out")', 2)
@@ -116,14 +117,27 @@ function builder:compile()
 
         if self.should_skip and fs.isfile(obj[#obj]) and fs.last_modified(obj[#obj]) > fs.last_modified(v) and fs.last_modified(obj[#obj]) > fs.last_modified(BUILD_RULES_FILENAME) then
             if pretty_print then
-                print('    '..RED('skipping')..' '..v..' (already compiled)')
+                io_write('    ')
+                io_write(RED())
+                io_write('skipping')
+                io_write(NORMAL)
+                io_write(' ')
+                io_write(v)
+                io_write(' (already compiled)\n')
             end
         else
             -- compile
             local compiler = v.compiler or compiler
             local cflags = cflags..' '..(v.cflags or '')
             if pretty_print then
-                print('    '..YELLOW(compiler)..RED(' <')..DARK_RED('--- ')..v)
+                io_write('    ')
+                io_write(YELLOW())
+                io_write(compiler)
+                io_write(DARK_RED())
+                io_write(' <--- ')
+                io_write(NORMAL)
+                io_write(v)
+                io_write('\n')
             end
             local command = compiler..' '..v..' -c -o '..build_dir..'/'..o..' '..cflags..' '..sflags
             local success = execute(command) == 0
@@ -162,14 +176,26 @@ function builder:link(obj)
 
         if output_is_older then
             if pretty_print then
-                print(RED('skipping ')..GREEN(output)..' (already linked)')
+                io_write(RED())
+                io_write('skipping ')
+                io_write(GREEN())
+                io_write(output)
+                io_write(NORMAL)
+                io_write(' (already linked)\n')
             end
             return
         end
     end
     -- link
     if pretty_print then
-        print(YELLOW('link')..DARK_RED(' ---')..RED('> ')..GREEN(output))
+        io_write(YELLOW())
+        io_write('link')
+        io_write(DARK_RED())
+        io_write(' ---> ')
+        io_write(GREEN())
+        io_write(output)
+        io_write(NORMAL)
+        io_write('\n')
     end
     fs.mkdir(output, true)
     local success = execute(linker..' '..table.concat(obj, ' ')..' -o '..output..' '..ldflags..' '..sflags) == 0

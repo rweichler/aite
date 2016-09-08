@@ -13,15 +13,25 @@ c.BLUE =        '1;34'
 c.PURPLE =      '0;35'
 c.DARK_CYAN =   '0;36'
 
+NORMAL = '\x1B[0m'
+
 for k,v in pairs(c) do
+    local head, tail
+    if c.is_ps1 then
+        -- i also use this for my ps1 in bash
+        -- so i just do the check in here.
+        head = '\\[\x1B['..v..'m\\]'
+        tail = '\\[\x1B[0m\\]'
+    else
+        -- this is what is typically used
+        head = '\x1B['..v..'m'
+        tail = NORMAL
+    end
     _G[k] = function(str)
-        if c.is_ps1 then
-            -- i also use this for my ps1 in bash
-            -- so i just do the check in here.
-            return '\\[\x1B['..v..'m\\]'..str..'\\[\x1B[0m\\]'
+        if not str then
+            return head
         else
-            -- this is what usually is printed
-            return '\x1B['..v..'m'..str..'\x1B[0m'
+            return head..str..tail
         end
     end
 end
