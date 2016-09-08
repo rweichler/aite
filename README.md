@@ -2,9 +2,7 @@
 
 this is my personal build system I use to make all of my projects (and sometimes other people's)
 
-i promise this isnt that hard to install, its just 4 commands:
-
-(remember to change `/some/directory` to an actual directory on your computer)
+# Installing
 
 ```bash
 cd /some/directory
