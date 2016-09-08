@@ -40,7 +40,7 @@ end
 
 Check out the examples folder for more.
 
-You can have multiple functions in there, for different stuff. You'd call it with `aite function_name`. `aite` by itself translates to `aite default`.
+Also, can have multiple functions in there, for different stuff. You'd call it with `aite function_name`. `aite` by itself translates to `aite default`.
 
 # Documentation
 
