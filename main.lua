@@ -45,6 +45,7 @@ package.path = package.path..';'..folder..'/?.lua'..
 require('include/init')
 
 dofile(BUILD_RULES_FILENAME)
+local start_time = os.time()
 local f = _G[target]
 if f then
     local x = {...}
@@ -55,6 +56,10 @@ if f then
     end
 else
     print("No function for '"..target.."' found :(")
+end
+
+if TIME_IT then
+    print('it took '..(os.time() - start_time)..' sec')
 end
 
 if finish then

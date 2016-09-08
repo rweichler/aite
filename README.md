@@ -28,42 +28,17 @@ boom. now you can say `aite` to your computer.
 its basically `Makefile`. heres an example:
 
 ```lua
--- this is called when `aite` is
--- called with no arguments
 function default()
-    -- cleanup old layout folder
-    os.pexecute("rm -rf layout")
-
-    -- setup compiler
-    local b = builder('apple')
-    b.compiler = 'clang'
-    b.build_dir = 'build' -- put all .o files in 'build'
-    b.src = fs.scandir('*.m') --compile all .m files in current directory
-    b.frameworks = {
-        'UIKit',
-        'Foundation'
-    }
-    b.output = 'layout/MobileSubstrate/DynamicLibraries/my_sick_tweak.dylib'
-
-    -- compile
-    local objs = b:compile()
-    -- link
-    b:link(objs)
-
-    -- setup debber
-    local d = debber()
-    d.input = 'layout'
-    d.output = 'lmfao.deb'
-    d.packageinfo = {
-        Name = 'LMFAO',
-        Package = 'com.apple.lmfao',
-        Version = 1.0,
-    }
-
-    -- create deb file
-    d:make_deb()
+    local b = builder()
+    b.compiler = 'gcc'
+    b.build_dir = 'build'
+    b.src = {'main.c'}
+    b.output = 'a.out'
+    b:link(b:compile())
 end
 ```
+
+Check out the examples folder for more.
 
 You can have multiple functions in there, for different stuff. You'd call it with `aite function_name`. `aite` by itself translates to `aite default`.
 
@@ -71,25 +46,14 @@ You can have multiple functions in there, for different stuff. You'd call it wit
 
 ## Using builder
 
-So there are two ways to do this.
-
-* `local b = builder()`
-* `local b = builder('apple')`
-
-I'd recommend always having 'apple' in there. That way you get these:
-
-* `b.frameworks` (table): Public/Private Apple frameworks you want to link with. e.g. `{'Foundation', 'UIKit', 'AppSupport'}`
-* `b.archs` (table): table listing of the archs you want to use. e.g. `{'armv7', 'arm64'}` or `{'x86_64'}`
-* `b.sdk` (string): name of the SDK you wanna link against. e.g. `'iphoneos'` or `'macosx'`
-* `b.sdk_path` (string): Optional. The full path to the iPhoneOS8.1.sdk (or whatever), in case if you don't have Xcode.
-
-
-These are the ones included by default, no matter what:
+```lua
+local b = builder()
+```
 
 * `b.compiler` (string): e.g. `'gcc'` or `'clang'`
 * `b.src` (table): The source files you'll be compiling. e.g. `{'main.m'}` or `fs.scandir('*.m')`
 * `b.build_dir` (string): The folder where you want all the ugly `.o` files to go. e.g. `'build'`
-* `b.output` (string): Where the executable should go. Add `.dylib` to the end to make a dylib that can be dynamically loaded.
+* `b.output` (string): Where the executable should go. Add `.dylib` or `.so` to the end to dynamic library.
 * `b.defines` (table): What you want `#define`d at compile time.
 
 Advanced ones: 
@@ -98,6 +62,38 @@ Advanced ones:
 * `b.include_dirs` (table): the folders you wanna include from (like rpetrich's iphoneheaders or something)
 * `b.library_dirs` (table): the folders you wanna look in for libraries.
 * `b.libraries` (table): the libraries you want to link to.
+
+### For making jailbreak tweaks
+
+```lua
+local b = builder('apple')
+```
+
+* `b.frameworks` (table): Public/Private Apple frameworks you want to link with. e.g. `{'Foundation', 'UIKit', 'AppSupport'}`
+* `b.archs` (table): table listing of the archs you want to use. e.g. `{'armv7', 'arm64'}` or `{'x86_64'}`
+* `b.sdk` (string): name of the SDK you wanna link against. e.g. `'iphoneos'` or `'macosx'`
+* `b.sdk_path` (string): Optional. The full path to the iPhoneOS8.1.sdk (or whatever), in case if you don't have Xcode.
+
+Have `b.output` be something that ends with `.dylib`
+
+## Convenience functions
+
+Let's say you're trying to build some monolithic codebase with a bunch of nested C++ files.
+
+```lua
+b.src = table.merge(
+            fs.scandir('*.cpp'),
+            fs.scandir('*/*.cpp'),
+            fs.scandir('*/*/*.cpp'),
+            fs.scandir('*/*/*/*.cpp')
+        )
+```
+
+`os.pexecute` is exactly like `os.execute` but it also prints out the command, like with Makefiles.
+
+`os.capture` is like `os.execute`, except that it returns whatever the command prints out as a string.
+
+Add `TIME_IT = true` to the very top of your file in order to print out how long your build took.
 
 ## Using debber
 
