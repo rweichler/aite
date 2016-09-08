@@ -98,6 +98,7 @@ local function num_chars(num)
 end
 
 local io_write = io.write
+local fs_isfile = fs.isfile
 function builder:compile()
     -- args
     local output = self.output or error('builder.output not set (e.g. "tweak.dylib" or "a.out")', 2)
@@ -108,6 +109,7 @@ function builder:compile()
     local cflags = self.cflags
     local ldflags = self.ldflags
     local sflags = self.sflags
+    local should_skip = self.should_skip
 
     -- flags
     local execute = self.verbose and os.pexecute or os.execute
@@ -117,15 +119,16 @@ function builder:compile()
     -- actual shit
 
     local obj = {}
+    local build_rules_last_modified = fs.last_modified(BUILD_RULES_FILENAME)
 
     for i,v in ipairs(src) do
-        fs.mkdir(build_dir..'/'..v, true)
-        local o = fs.replace_ext(v, 'o')
+        local o = build_dir..'/'..v..'.o'
+        fs.mkdir(o, true)
 
         -- setup obj
-        obj[#obj + 1] = build_dir..'/'..o
-
-        if self.should_skip and fs.isfile(obj[#obj]) and fs.last_modified(obj[#obj]) > fs.last_modified(v) and fs.last_modified(obj[#obj]) > fs.last_modified(BUILD_RULES_FILENAME) then
+        obj[#obj + 1] = o
+        local o_last_modified = fs_isfile(o) and fs.last_modified(o)
+        if should_skip and o_last_modified and o_last_modified > fs.last_modified(v) and o_last_modified > build_rules_last_modified then
             if pretty_print then
                 io_write('    ')
                 io_write(DARK_CYAN())
@@ -139,8 +142,6 @@ function builder:compile()
             end
         else
             -- compile
-            local compiler = v.compiler or compiler
-            local cflags = cflags..' '..(v.cflags or '')
             if pretty_print then
                 io_write('    ')
                 if self.show_count or #src > 9 and self.show_count == nil then
@@ -160,7 +161,7 @@ function builder:compile()
                 io_write(v)
                 io_write('\n')
             end
-            local command = compiler..' '..v..' -c -o '..build_dir..'/'..o..' '..cflags..' '..sflags
+            local command = compiler..' '..v..' -c -o '..o..' '..cflags..' '..sflags
             local success = execute(command) == 0
 
             if not success then

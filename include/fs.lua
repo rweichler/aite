@@ -38,9 +38,9 @@ function fs.isdir(path)
     end
 end
 
---[[
-local ffi = require 'ffi'
-function fs.last_modified(path)
+-- use faster func if ffi allows it
+fs.last_modified = require('ffi.stat').last_modified or function(path)
+    -- fallback to slower terminal-based command if not
     local cmd
     if ffi.os == 'OSX' then
         cmd = 'stat -f "%Sm" -t "%s" "'..path..'"'
@@ -50,16 +50,12 @@ function fs.last_modified(path)
     end
     return tonumber(os.capture(cmd))
 end
-]]
-
-local ffi_stat = require 'ffi.stat'
-fs.last_modified = ffi_stat.last_modified
 
 function fs.isfile(path)
     local f = io.open(path, 'r')
     if f then
         io.close(f)
-        return not fs.isdir(path)
+        return true
     else
         return false
     end
