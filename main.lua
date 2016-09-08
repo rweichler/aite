@@ -1,5 +1,6 @@
 #!/usr/bin/env luajit
 
+local start_time = os.time()
 BUILD_RULES_FILENAME = 'how2build.lua'
 
 function os.capture(cmd)
@@ -34,7 +35,9 @@ local function where_is_main_dot_lua()
     return get_folder_from_path(get_folder_from_path(get_folder_from_path(cmd))..'/'..string.sub(symlink, 4, #symlink))
 end
 
-local folder = where_is_main_dot_lua()
+AITE_FOLDER = where_is_main_dot_lua()
+
+local folder = AITE_FOLDER
 local target = arg[1] or 'default'
 
 package.path = package.path..';'..folder..'/?.lua'..
@@ -43,16 +46,29 @@ package.path = package.path..';'..folder..'/?.lua'..
                              ';'..folder..'/deps/?/init.lua'
 
 require('include/init')
-
-dofile(BUILD_RULES_FILENAME)
-local start_time = os.time()
 local f = _G[target]
+if f then
+    io.write(GREEN())
+    io.write('Running internal aite function "')
+    io.write(target)
+    io.write('"')
+    io.write(NORMAL)
+    io.write('\n')
+else
+    local success, err = xpcall(dofile, debug.traceback, BUILD_RULES_FILENAME)
+    if not success then
+        print(RED('ERROR: ')..err)
+        return
+    end
+     f = _G[target]
+end
+
 if f then
     local x = {...}
     table.remove(x, 1)
     local success, err = xpcall(f, debug.traceback,  unpack(x))
     if not success then
-        print(RED("ERROR: ")..err)
+        print(RED("ERROR: ")..err..'\n'..GREEN('This also might be caused by an outdated version of aite. Update aite with the command `aite update`.'))
     end
 else
     print("No function for '"..target.."' found :(")

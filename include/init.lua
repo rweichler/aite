@@ -7,3 +7,7 @@ require 'include/debber'
 require 'include/printcolors'
 require 'include/string'
 require 'include/table'
+
+function update()
+    os.execute('git -C '..AITE_FOLDER..' pull origin master')
+end
