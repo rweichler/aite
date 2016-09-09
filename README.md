@@ -122,6 +122,8 @@ Calculate the md5sum, size, etc so you can put it in your repo and print it out 
 d:print_packageinfo()
 ```
 
+Note this must be done after making the .deb, because the md5sum and size are dependent on it.
+
 
 ### Things to keep in mind
 
