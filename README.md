@@ -21,6 +21,7 @@ boom. now you can say `aite` to your computer.
 * Mac OS X
 * Linux
 * Windows?? (It worked in Cygwin... you need to do `luajit.exe /some/directory/main.lua` though instead of `aite`)
+* FreeBSD
 
 # Dependencies
 

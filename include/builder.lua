@@ -72,7 +72,7 @@ function builder:get_cflags()
             cflags = cflags..' -D'..v
         end
     end
-    if self.is_making_dylib and ffi.os == 'Linux' then
+    if self.is_making_dylib and (ffi.os == 'Linux' or ffi.os == 'BSD') then
         cflags = cflags..' -fPIC'
     end
     return cflags

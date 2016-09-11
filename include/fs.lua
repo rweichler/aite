@@ -42,7 +42,7 @@ end
 fs.last_modified = require('ffi.stat').last_modified or function(path)
     -- fallback to slower terminal-based command if not
     local cmd
-    if ffi.os == 'OSX' then
+    if ffi.os == 'OSX' or ffi.os == 'BSD' then
         cmd = 'stat -f "%Sm" -t "%s" "'..path..'"'
     else
         -- linux
