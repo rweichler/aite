@@ -13,47 +13,42 @@ function builder:new(kind)
     return self
 end
 
+function builder:get_is_making_dylib()
+    return string.has_suffix(self.output, '.dylib')
+        or string.has_suffix(self.output, '.so')
+        or string.has_suffix(self.output, '.dll')
+end
 
 function builder:set_ldflags(ldflags)
     self._ldflags = ldflags
 end
 
-function builder:get_is_making_dylib()
-    local suffix = '.dylib'
-    if string.has_suffix(self.output, '.dylib') or
-       string.has_suffix(self.output, '.so') or
-       string.has_suffix(self.output, '.dll')
-    then
-        return true
-    else
-        return false
-    end
-end
-
 function builder:get_ldflags()
     local ldflags = self._ldflags or ''
-    local libraries = ''
-    local dylib
     if self.is_making_dylib then
         if ffi.os == 'OSX' then
-            dylib = '-dynamiclib'
+            ldflags = ldflags..' -dynamiclib'
         else
-            dylib = '-shared'
+            ldflags = ldflags..' -shared'
         end
-    else
-        dylib = ''
     end
     if self.library_dirs then
         for i,v in ipairs(self.library_dirs) do
-            libraries = libraries..' -L'..v
+            ldflags = ldflags..' -L'..v
         end
     end
     if self.libraries then
         for i,v in ipairs(self.libraries) do
-            libraries = libraries..' -l'..v
+            ldflags = ldflags..' -l'..v
         end
     end
-    return ldflags..' '..libraries..' '..dylib
+    if self.dylib_install_name then
+        if not self.is_making_dylib then
+            error('builder.dylib_install_name is set, but not making a .dylib/.so/.dll')
+        end
+        ldflags = ldflags..' -install_name '..self.dylib_install_name
+    end
+    return ldflags
 end
 
 function builder:set_cflags(cflags)
