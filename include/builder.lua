@@ -138,8 +138,9 @@ function builder:compile()
                 io_write(' ')
                 io_write(v)
                 io_write(DARK_CYAN())
-                io_write(' (already compiled)\n')
+                io_write(' (already compiled)')
                 io_write(NORMAL)
+                io_write('\n')
             end
         else
             -- compile
@@ -178,7 +179,7 @@ end
 
 function builder:link(obj)
     -- args
-    local linker = self.linker or assert(self.compiler, 'linker not set (e.g. "clang" or "gcc" or "javac")')
+    local linker = self.linker or assert(self.compiler, 'linker not set (e.g. "clang" or "gcc")')
     local ldflags = self.ldflags
     local sflags = self.sflags
     local output = self.output
@@ -206,8 +207,9 @@ function builder:link(obj)
                 io_write(output)
                 io_write(NORMAL)
                 io_write(DARK_CYAN())
-                io_write(' (already linked)\n')
+                io_write(' (already linked)')
                 io_write(NORMAL)
+                io_write('\n')
             end
             return
         end
