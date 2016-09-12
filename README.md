@@ -16,6 +16,10 @@ ln -s /some/directory/aite/main.lua /usr/local/bin/aite
 
 boom. now you can say `aite` to your computer.
 
+# Dependencies
+
+* LuaJIT
+
 # Compatibility
 
 * Mac OS X
@@ -23,11 +27,7 @@ boom. now you can say `aite` to your computer.
 * Windows?? (It worked in Cygwin... you need to do `luajit.exe /some/directory/main.lua` though instead of `aite`)
 * FreeBSD
 
-# Dependencies
-
-* LuaJIT
-
-## WTF is `how2build.lua`?
+# WTF is `how2build.lua`?
 
 its basically `Makefile`. heres an example:
 
@@ -85,6 +85,14 @@ b.src = table.merge(
 `os.capture` is like `os.execute`, except that it returns whatever the command prints out as a string.
 
 Add `TIME_IT = true` to the very top of your file in order to print out how long your build took.
+
+## Caveats
+
+In order to make how2build.lua nicer to read, I have opted to not have file dependencies (other than mapping source files to object files, and object files to binaries)
+
+What I mean by this is, let's say you have a file `lol.c` and `lol.h`. The c file #include's the h file. If you change the h file, then the c file will not be recompiled. The only way the c file will be recompiled is if you edit the c file.
+
+In order to mitigate this, just remember to do `touch lol.c` any time you edit `lol.h`.
 
 ## Making jailbreak tweaks
 
