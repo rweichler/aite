@@ -92,7 +92,10 @@ In order to make how2build.lua nicer to read, I have opted to not have file depe
 
 What I mean by this is, let's say you have a file `lol.c` and `lol.h`. The c file #include's the h file. If you change the h file, then the c file will not be recompiled. The only way the c file will be recompiled is if you edit the c file.
 
-In order to mitigate this, just remember to do `touch lol.c` any time you edit `lol.h`.
+#### Mitigating this
+
+* run `touch lol.c` after editing lol.h.
+* if more than one file depends on the .h file (and `touch`ing them all would be a pain), then run `touch how2build.lua`. That will cause a complete rebuild.
 
 ## Making jailbreak tweaks
 
