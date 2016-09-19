@@ -22,6 +22,9 @@ for k,v in pairs(c) do
         -- so i just do the check in here.
         head = '\\[\x1B['..v..'m\\]'
         tail = '\\[\x1B[0m\\]'
+    elseif ffi.os == 'Windows' then
+        head = ''
+        tail = ''
     else
         -- this is what is typically used
         head = '\x1B['..v..'m'

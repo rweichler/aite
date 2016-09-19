@@ -118,7 +118,12 @@ function builder:compile()
     local build_rules_last_modified = fs.last_modified(BUILD_RULES_FILENAME)
 
     for i,v in ipairs(src) do
-        local o = build_dir..'/'..v..'.o'
+        local separator = '/'
+        if ffi.os == 'Windows' then
+            separator = '\\'
+            v = string.gsub(v, '/', separator)
+        end
+        local o = build_dir..separator..v..'.o'
         fs.mkdir(o, true)
 
         -- setup obj

@@ -24,7 +24,7 @@ boom. now you can say `aite` to your computer.
 
 * Mac OS X
 * Linux
-* Windows?? (It worked in Cygwin... you need to do `luajit.exe /some/directory/main.lua` though instead of `aite`)
+* Windows 7 (MinGW needs to be installed, and you need to do `luajit.exe C:\some\directory\aite\main.lua` instead of `aite`)
 * FreeBSD
 
 # WTF is `how2build.lua`?

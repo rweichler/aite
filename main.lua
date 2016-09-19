@@ -18,9 +18,14 @@ local function get_folder_from_path(path)
         return fields
     end
 
-    local components = string_split(path, '/')
+    local separator = '/'
+    if require('ffi').os == 'Windows' then
+        separator = '\\'
+    end
+
+    local components = string_split(path, separator)
     components[#components] = nil
-    return (string.sub(path,1,1) == '/' and '/' or '')..table.concat(components, '/')
+    return (string.sub(path,1,1) == separator and separator or '')..table.concat(components, separator)
 end
 
 local function where_is_main_dot_lua()

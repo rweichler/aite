@@ -3,9 +3,39 @@ fs = {}
 function fs.scandir(directory)
     local i = 0
     local t = {}
-    local pfile = io.popen('ls '..directory)
+    local cmd = 'ls'
+    if ffi.os == 'Windows' then
+        cmd = 'dir /b'
+        directory = string.gsub(directory, '/', '\\')
+    end
+    local pfile = io.popen(cmd..' '..directory)
     for filename in pfile:lines() do
         i = i + 1
+        t[i] = filename
+    end
+    pfile:close()
+    return t
+end
+
+function fs.find(directory, ext)
+    local cmd
+    if ffi.os == 'Windows' then
+        cmd = 'for /r '..string.gsub(directory, '/', '\\')..' %f in ('..ext..') do @echo %f'
+    else
+        cmd = 'find '..directory..' -type f -name "'..ext..'"'
+    end
+    local i = 0
+    local t = {}
+    local pfile = io.popen(cmd)
+    local cwd
+    if ffi.os == 'Windows' then
+        cwd = os.capture('cd')..'\\'
+    end
+    for filename in pfile:lines() do
+        i = i + 1
+        if ffi.os == 'Windows' then
+            filename = string.gsub(filename, cwd, '')
+        end
         t[i] = filename
     end
     pfile:close()
@@ -44,6 +74,8 @@ fs.last_modified = require('ffi.stat').last_modified or function(path)
     local cmd
     if ffi.os == 'OSX' or ffi.os == 'BSD' then
         cmd = 'stat -f "%Sm" -t "%s" "'..path..'"'
+    elseif ffi.os == 'Windows' then
+        return 0 -- TODO actually implement this
     else
         -- linux
         cmd = 'stat -c %Y "'..path..'"'
@@ -63,14 +95,18 @@ end
 
 function fs.mkdir(path, skip_last)
     if skip_last then
-        local last_index = lastIndexOf(path, '/')
+        local last_index = lastIndexOf(path, '/') or lastIndexOf(path, '\\')
         if not last_index then
             -- means we're doing `mkdir .`
             return true
         end
         path = string.sub(path, 1, last_index - 1)
     end
-    return os.execute('mkdir -p '..path) == 0
+    if ffi.os == 'Windows' then
+        return os.execute('if not exist "'..path..'" mkdir '..path) == 0
+    else
+        return os.execute('mkdir -p '..path) == 0
+    end
 end
 
 ffi.cdef[[
