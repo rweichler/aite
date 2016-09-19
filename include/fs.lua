@@ -17,6 +17,14 @@ function fs.scandir(directory)
     return t
 end
 
+function fs.getcwd()
+    if ffi.os == 'Windows' then
+        return os.capture('cd')
+    else
+        return os.capture('pwd')
+    end
+end
+
 function fs.find(directory, ext)
     local cmd
     if ffi.os == 'Windows' then
@@ -27,14 +35,11 @@ function fs.find(directory, ext)
     local i = 0
     local t = {}
     local pfile = io.popen(cmd)
-    local cwd
-    if ffi.os == 'Windows' then
-        cwd = os.capture('cd')..'\\'
-    end
+    local cwd = fs.getcwd()
     for filename in pfile:lines() do
         i = i + 1
         if ffi.os == 'Windows' then
-            filename = string.gsub(filename, cwd, '')
+            filename = string.gsub(filename, cwd..'\\', '')
         end
         t[i] = filename
     end

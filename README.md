@@ -69,14 +69,14 @@ Advanced ones:
 
 ## Convenience functions
 
-Let's say you're trying to build some monolithic codebase with a bunch of nested C++ files.
+Let's say you're trying to build some monolithic codebase with a bunch of nested C++ files in one folder,
+and then a random other file, and then just the top-level contents of some random directory.
 
 ```lua
 b.src = table.merge(
-            fs.scandir('*.cpp'),
-            fs.scandir('*/*.cpp'),
-            fs.scandir('*/*/*.cpp'),
-            fs.scandir('*/*/*/*.cpp')
+            fs.find('nested_folder', '*.cpp'),
+            'random_file.cpp',
+            fs.scandir('some_other_folder/*.cpp')
         )
 ```
 
