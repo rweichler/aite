@@ -50,8 +50,32 @@ package.path = package.path..';'..folder..'/?.lua'..
                              ';'..folder..'/deps/?.lua'..
                              ';'..folder..'/deps/?/init.lua'
 
+local get_func
+local function get_func(self, i)
+    self = self or _G
+    self = _G[target]
+    i = i or 1
+    if type(self) == 'function' then
+        return self
+    elseif type(self) == 'table' then
+        i = i + 1
+        self = self[arg[i]]
+        if self then
+            return get_func(self)
+        else
+            -- TODO this error could be better
+            -- like blah.balh.balh
+            -- error("No function for '"..arg[i].."' found :(")
+            return nil
+        end
+    else
+        --error(target..' is not a function')
+        return nil
+    end
+end
+
 require('include/init')
-local f = _G[target]
+local f = get_func()
 if f then
     io.write(GREEN())
     io.write('Running internal aite function "')
@@ -65,7 +89,7 @@ else
         print(RED('ERROR: ')..tostring(err))
         return
     end
-     f = _G[target]
+     f = get_func()
 end
 
 if f then

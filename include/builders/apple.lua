@@ -51,7 +51,12 @@ function builder:link(obj)
     local pretty_print = not self.verbose and not self.quiet
 
     if pretty_print then
-        print(YELLOW('sign ')..self.output)
+        io.write(YELLOW())
+        io.write('ldid ')
+        io.write(GREEN())
+        io.write(self.output)
+        io.write(NORMAL)
+        io.write('\n')
     end
 
     execute("ldid -S "..self.output)

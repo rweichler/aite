@@ -13,6 +13,14 @@ function builder:new(kind)
     return self
 end
 
+function builder:get_output()
+    return self._output or self.build_dir..'/'..self.bin
+end
+
+function builder:set_output(output)
+    self._output = output
+end
+
 function builder:get_is_making_dylib()
     return string.has_suffix(self.output, '.dylib')
         or string.has_suffix(self.output, '.so')
@@ -97,11 +105,11 @@ local fs_isfile = fs.isfile
 function builder:compile()
     local err = ''
     -- args
+    local build_dir = self.build_dir or error('builder.build_dir not set (e.g. "build")', 2)
     local output = self.output or error('builder.output not set (e.g. "tweak.dylib" or "a.out")', 2)
     local compiler = self.compiler or error('builder.compiler not set (e.g. "gcc" or "clang")')
     local src = self.src or error('builder.src not set (e.g. {"main.c"} or fs.scandir("*.c"))', 2)
     local linker = compiler or self.linker
-    local build_dir = self.build_dir or error('builder.build_dir not set (e.g. "build")', 2)
     local cflags = self.cflags
     local ldflags = self.ldflags
     local sflags = self.sflags

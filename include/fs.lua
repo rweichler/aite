@@ -26,6 +26,10 @@ function fs.getcwd()
 end
 
 function fs.find(directory, ext)
+    if not ext then
+        ext = directory
+        directory = '.'
+    end
     local cmd
     if ffi.os == 'Windows' then
         cmd = 'for /r '..string.gsub(directory, '/', '\\')..' %f in ('..ext..') do @echo %f'
