@@ -14,7 +14,15 @@ function builder:new(kind)
 end
 
 function builder:get_output()
-    return self._output or self.build_dir..'/'..self.bin
+    local bin = self.bin
+    local output = self._output
+    if bin and output then
+        error('either builder.bin or builder.output must be nil', 3)
+    elseif bin then
+        return self.build_dir..'/'..bin
+    elseif output then
+        return output
+    end
 end
 
 function builder:set_output(output)
@@ -71,8 +79,12 @@ function builder:get_cflags()
         end
     end
     if self.defines then
-        for i,v in ipairs(self.defines) do
-            cflags = cflags..' -D'..v
+        for k,v in pairs(self.defines) do
+            if type(k) == 'number' then
+                cflags = cflags..' -D'..v
+            else
+                cflags = cflags..' -D'..k.."='"..v.."'"
+            end
         end
     end
     if self.is_making_dylib and (ffi.os == 'Linux' or ffi.os == 'BSD') then
