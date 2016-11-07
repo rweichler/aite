@@ -114,6 +114,14 @@ end
 
 local io_write = io.write
 local fs_isfile = fs.isfile
+
+local build_rules_last_modified
+if fs.isfile(BUILD_RULES_FILENAME) then
+    build_rules_last_modified = fs.last_modified(BUILD_RULES_FILENAME)
+else
+    build_rules_last_modified = 0
+end
+
 function builder:compile()
     local err = ''
     -- args
@@ -135,7 +143,10 @@ function builder:compile()
     -- actual shit
 
     local obj = {}
-    local build_rules_last_modified = fs.last_modified(BUILD_RULES_FILENAME)
+
+    if type(src) == 'string' then
+        src = {src}
+    end
 
     for i,v in ipairs(src) do
         local separator = '/'
@@ -209,7 +220,7 @@ function builder:link(obj)
     local pretty_print = not self.verbose and not self.quiet
     local quiet = self.quiet
 
-    if self.should_skip and fs.isfile(output) and fs.last_modified(output) > fs.last_modified(BUILD_RULES_FILENAME) then
+    if self.should_skip and fs.isfile(output) and fs.last_modified(output) > build_rules_last_modified then
         local output_is_older = true
         for k,v in pairs(obj) do
             if fs.last_modified(output) < fs.last_modified(v) then

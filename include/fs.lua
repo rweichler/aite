@@ -77,6 +77,8 @@ function fs.isdir(path)
     end
 end
 
+fs.is_dir = fs.isdir
+
 -- use faster func if ffi allows it
 fs.last_modified = require('ffi.stat').last_modified or function(path)
     -- fallback to slower terminal-based command if not
@@ -102,6 +104,8 @@ function fs.isfile(path)
     end
 end
 
+fs.is_file = fs.isfile
+
 function fs.mkdir(path, skip_last)
     if skip_last then
         local last_index = lastIndexOf(path, '/') or lastIndexOf(path, '\\')
@@ -117,6 +121,8 @@ function fs.mkdir(path, skip_last)
         return os.execute('mkdir -p '..path) == 0
     end
 end
+
+fs.make_dir = fs.mkdir
 
 ffi.cdef[[
 typedef void * DIR;
