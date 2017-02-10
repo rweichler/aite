@@ -20,7 +20,7 @@ function quick(toolchain, ...)
     b.compiler = 'gcc'
     b.src = {...}
     b.build_dir = '.aitequickbuild'
-    b.output = 'a.out'
+    b.output = 'q.out'
     b:link(b:compile())
     os.execute('rm -r .aitequickbuild')
 end
