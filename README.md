@@ -1,11 +1,10 @@
 # Aite
 
-this is my personal build system I use to make all of my projects (and sometimes other people's)
+this is my personal build system
 
-this is really good for making jailbreak tweaks and LuaJIT ffi bindings, but it can be used for anything really
+i usually use it to make LuaJIT game engines, or jailbreak tweaks, or 3DS homebrew
 
-it's also really fast for building other people's projects (in terms of actual build time, and figuring out what you need to do)
-if you don't want to deal with Make/CMake/autotools/premake
+i also sometimes use it compile other people's projects when i cant figure out their build system
 
 # Installing
 
