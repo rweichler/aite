@@ -30,9 +30,16 @@ function builder:set_output(output)
 end
 
 function builder:get_is_making_dylib()
-    return string.has_suffix(self.output, '.dylib')
+    if not(self._is_making_dylib == nil) then
+        return self._is_making_dylib
+    end
+    return  string.has_suffix(self.output, '.dylib')
         or string.has_suffix(self.output, '.so')
         or string.has_suffix(self.output, '.dll')
+end
+
+function builder:set_is_making_dylib(k)
+    self._is_making_dylib = k
 end
 
 function builder:set_ldflags(ldflags)

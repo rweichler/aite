@@ -87,6 +87,7 @@ else
     local success, err = xpcall(dofile, debug.traceback, BUILD_RULES_FILENAME)
     if not success then
         print(RED('ERROR: ')..tostring(err))
+        EXITCODE = 1
         return
     end
      f = get_func()
@@ -98,9 +99,11 @@ if f then
     local success, err = xpcall(f, debug.traceback,  unpack(x))
     if not success then
         print(RED("ERROR: ")..tostring(err)..'\n'..GREEN('Keep in mind this might be caused by an outdated version of aite. Update aite with the command `aite update`.'))
+        EXITCODE = 1
     end
 else
     print("No function for '"..target.."' found :(")
+    EXITCODE = 1
 end
 
 if TIME_IT then
@@ -110,3 +113,5 @@ end
 if finish then
     finish(...)
 end
+
+os.exit(EXITCODE or 0)
