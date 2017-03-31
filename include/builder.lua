@@ -1,5 +1,13 @@
 builder = object()
 
+if ffi.os == 'OSX' then
+    builder.dylib_ext = 'dylib'
+elseif ffi.os == 'Windows' then
+    builder.dylib_ext = 'dll'
+else -- just assume its something like Linux or BSD
+    builder.dylib_ext = 'so'
+end
+
 function builder:new(kind)
     if kind then
         local sub = require('include/builders/'..kind)
