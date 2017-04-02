@@ -168,7 +168,7 @@ function builder:compile()
         if ffi.os == 'Windows' then
             separator = '\\'
             v = string.gsub(v, '/', separator)
-            build_dir = string.gsub(v, '/', separator)
+            build_dir = string.gsub(build_dir, '/', separator)
         end
         local o = build_dir..separator..v..'.o'
         fs.mkdir(o, true)

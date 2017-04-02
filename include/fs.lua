@@ -43,7 +43,7 @@ function fs.find(directory, ext)
     for filename in pfile:lines() do
         i = i + 1
         if ffi.os == 'Windows' then
-            filename = string.gsub(filename, cwd..'\\', '')
+            filename = string.gsub(filename, string.gsub(cwd, '%-', '%%%-')..'\\', '')
         end
         t[i] = filename
     end
