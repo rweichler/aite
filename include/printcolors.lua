@@ -23,6 +23,7 @@ for k,v in pairs(c) do
         head = '\\[\x1B['..v..'m\\]'
         tail = '\\[\x1B[0m\\]'
     elseif ffi.os == 'Windows' then
+        NORMAL = ''
         head = ''
         tail = ''
     else

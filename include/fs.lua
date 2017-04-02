@@ -44,6 +44,7 @@ function fs.find(directory, ext)
         i = i + 1
         if ffi.os == 'Windows' then
             filename = string.gsub(filename, string.gsub(cwd, '%-', '%%%-')..'\\', '')
+            filename = string.gsub(filename, '\\', '/')
         end
         t[i] = filename
     end
