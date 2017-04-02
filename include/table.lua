@@ -14,3 +14,14 @@ function table.merge(...)
     end
     return result
 end
+
+function table.removecontents(a, b)
+    for _,del in ipairs(b) do
+        for i,v in ipairs(a) do
+            if v == del then
+                table.remove(a, i)
+                break
+            end
+        end
+    end
+end
