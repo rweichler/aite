@@ -2,9 +2,7 @@
 
 this is my personal build system
 
-i usually use it to make LuaJIT game engines, or jailbreak tweaks, or 3DS homebrew
-
-i also sometimes use it compile other people's projects when i cant figure out their build system
+apparently other people use it too.
 
 # Installing
 
