@@ -1,9 +1,3 @@
-# Aite
-
-this is my personal build system
-
-apparently other people use it too.
-
 # Installing
 
 ```bash
