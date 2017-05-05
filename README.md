@@ -1,5 +1,9 @@
 # Installing
 
+You actually don't need to install it. Just clone it somewhere and run `luajit /path/to/aite/main.lua`.
+
+But, if typing that huge command gets old, just do this:
+
 ```bash
 git clone https://github.com/rweichler/aite /some/directory/aite
 ln -s /some/directory/aite/main.lua /usr/local/bin/aite
@@ -7,7 +11,6 @@ ln -s /some/directory/aite/main.lua /usr/local/bin/aite
 
 boom. now you can say `aite` to your computer.
 
-Optionally, you dont even need to install it. Just clone it somewhere and run `/path/to/aite/main.lua`.
 
 # Dependencies
 
