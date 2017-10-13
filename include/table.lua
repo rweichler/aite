@@ -17,11 +17,16 @@ end
 
 function table.removecontents(a, b)
     for _,del in ipairs(b) do
+        local found = false
         for i,v in ipairs(a) do
             if v == del then
                 table.remove(a, i)
+                found = true
                 break
             end
+        end
+        if not found then
+            error("Couldn't find "..del)
         end
     end
 end

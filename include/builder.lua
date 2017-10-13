@@ -211,7 +211,8 @@ function builder:compile()
                 io_write('\n')
             end
             local command = compiler..' '..v..' -c -o '..o..' '..cflags..' '..sflags
-            local success = execute(command) == 0
+            local result = execute(command)
+            local success = result == true or result == 0
 
             if not success then
                 error("Couldn't compile "..v..". Set "..YELLOW("builder.verbose = true").." for more details.", 2)
@@ -277,9 +278,14 @@ function builder:link(obj)
         io_write('\n')
     end
     fs.mkdir(output, true)
-    local success = execute(linker..' '..table.concat(obj, ' ')..' -o '..output..' '..ldflags..' '..sflags) == 0
+    local result = execute(linker..' '..table.concat(obj, ' ')..' -o '..output..' '..ldflags..' '..sflags)
+    local success = result == 0 or result == true
 
     if not success then
         error("Couldn't link "..output..". Set "..YELLOW("builder.verbose = true").." for more details.", 2)
+    end
+
+    if self.strip then
+        execute('strip '..output)
     end
 end

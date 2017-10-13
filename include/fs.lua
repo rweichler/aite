@@ -84,12 +84,12 @@ fs.is_dir = fs.isdir
 fs.last_modified = require('ffi.stat').last_modified or function(path)
     -- fallback to slower terminal-based command if not
     local cmd
-    if ffi.os == 'OSX' or ffi.os == 'BSD' then
+    if (ffi.os == 'OSX' and (ffi.arch == 'x64' or ffi.arch == 'x86')) or ffi.os == 'BSD' then
         cmd = 'stat -f "%Sm" -t "%s" "'..path..'"'
     elseif ffi.os == 'Windows' then
         return 0 -- TODO actually implement this
     else
-        -- linux
+        -- linux / jailbroken iOS
         cmd = 'stat -c %Y "'..path..'"'
     end
     return tonumber(os.capture(cmd))

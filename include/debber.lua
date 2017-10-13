@@ -94,7 +94,8 @@ function debber:make_deb()
     if not self.verbose then
         tail = ' &> /dev/null'
     end
-    local success = execute("dpkg-deb "..self.options.." -b "..input.." "..output..tail) == 0
+    local result = execute("dpkg-deb "..self.options.." -b "..input.." "..output..tail)
+    local success = result == 0 or result == true
 
     if created_DEBIAN then
         os.execute('rm -r '..input..'/DEBIAN')
