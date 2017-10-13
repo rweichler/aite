@@ -18,7 +18,7 @@ boom. now you can say `aite` to your computer.
 
 # Compatibility
 
-* Mac OS X
+* Mac
 * iOS (jailbreak required)
 * Linux
 * Windows 7 (MinGW needs to be installed, and you need to do `luajit.exe C:\some\directory\aite\main.lua` instead of `aite`)
