@@ -16,13 +16,20 @@ boom. now you can say `aite` to your computer.
 
 * LuaJIT
 
-# Compatibility
+# Compatibility (host)
 
 * Mac
 * iOS (jailbreak required)
 * Linux
 * Windows 7 (MinGW needs to be installed, and you need to do `luajit.exe C:\some\directory\aite\main.lua` instead of `aite`)
 * FreeBSD
+
+# Available targets
+
+* Whatever the host is
+* iOS (if on Mac)
+* 3DS homebrew (if on Mac/Linux)
+* Wii homebrew (if on Mac/Linux)
 
 # WTF is `how2build.lua`?
 
