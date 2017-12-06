@@ -15,19 +15,19 @@ end
 
 function builder:get_sflags()
     local sflags = super.get_sflags(self)
-    sflags = sflags..'-g -DGEKKO -mrvl -mcpu=750 -meabi -mhard-float'
+    sflags = sflags..' -g -DGEKKO -mrvl -mcpu=750 -meabi -mhard-float'
     return sflags
 end
 
 function builder:get_cflags()
     local cflags = super.get_cflags(self)
-    cflags = cflags..'-Wall -O2 -I'..self.DEVKITPRO..'/libogc/include'
+    cflags = cflags..' -Wall -O2 -I'..self.DEVKITPRO..'/libogc/include'
     return cflags
 end
 
 function builder:get_ldflags()
     local ldflags = super.get_ldflags(self)
-    ldflags = ldflags..'-L'..self.DEVKITPRO..'/libogc/lib/wii -lwiiuse -lbte -logc -lm'
+    ldflags = ldflags..' -L'..self.DEVKITPRO..'/libogc/lib/wii -lwiiuse -lbte -logc -lm'
     return ldflags
 end
 
