@@ -97,6 +97,8 @@ function builder:get_cflags()
         for k,v in pairs(self.defines) do
             if type(k) == 'number' then
                 cflags = cflags..' -D'..v
+            elseif v == true then
+                cflags = cflags..' -D'..k
             else
                 cflags = cflags..' -D'..k.."='"..v.."'"
             end
