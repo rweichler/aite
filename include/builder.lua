@@ -99,8 +99,10 @@ function builder:get_cflags()
                 cflags = cflags..' -D'..v
             elseif v == true then
                 cflags = cflags..' -D'..k
-            else
-                cflags = cflags..' -D'..k.."='"..v.."'"
+            elseif type(v) == 'number' then
+                cflags = cflags..' -D'..k.."="..v
+            elseif type(v) == 'string' then
+                cflags = cflags..' -D'..k.."='"..string.gsub(v, "'", "\\'").."'"
             end
         end
     end

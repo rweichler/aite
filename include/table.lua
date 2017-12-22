@@ -15,18 +15,27 @@ function table.merge(...)
     return result
 end
 
-function table.removecontents(a, b)
-    for _,del in ipairs(b) do
-        local found = false
-        for i,v in ipairs(a) do
-            if v == del then
-                table.remove(a, i)
-                found = true
-                break
-            end
-        end
-        if not found then
-            error("Couldn't find "..del)
+local function rem(t, del)
+    local found = false
+    for i,v in ipairs(t) do
+        if v == del then
+            table.remove(t, i)
+            found = true
+            break
         end
     end
+    if not found then
+        error("Couldn't find "..tostring(del))
+    end
+end
+
+function table.removecontents(a, b)
+    if type(b) == 'table' then
+        for _,del in ipairs(b) do
+            rem(a, del)
+        end
+    else
+        rem(a, b)
+    end
+    return a
 end
