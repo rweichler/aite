@@ -1,3 +1,7 @@
+This is basically my own personal build system.
+It's entirely in LuaJIT because I like LuaJIT.
+And it targets the platforms I like. And also Windows.
+
 # Installing
 
 You actually don't need to install it. Just clone it somewhere and run `luajit /path/to/aite/main.lua`.
