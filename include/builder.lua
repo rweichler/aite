@@ -292,4 +292,6 @@ function builder:link(obj)
     if self.strip then
         execute('strip '..output)
     end
+
+    return true
 end

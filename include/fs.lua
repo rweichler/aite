@@ -25,7 +25,7 @@ function fs.getcwd()
     end
 end
 
-function fs.find(directory, ext)
+function fs.find(directory, ext, ...)
     if not ext then
         ext = directory
         directory = '.'
@@ -49,6 +49,11 @@ function fs.find(directory, ext)
         t[i] = filename
     end
     pfile:close()
+    if ... then
+        for i,v in ipairs{...} do
+            t = table.merge(t, fs.find(directory, v))
+        end
+    end
     return t
 end
 

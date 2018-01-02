@@ -6,6 +6,11 @@ function table.merge(...)
             for i, v in ipairs(t) do
                 result[len + i] = v
             end
+            for k, v in pairs(t) do
+                if not(type(k) == 'number') then
+                    result[k] = v
+                end
+            end
             len = len + #t
         else
             result[len + 1] = t

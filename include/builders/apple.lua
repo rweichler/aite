@@ -30,7 +30,7 @@ function builder:get_ldflags()
     local ldflags = super.get_ldflags(self)
     local frameworks = ''
     if self.frameworks then
-        frameworks = frameworks..' -F/System/Library/PrivateFrameworks'
+        frameworks = frameworks..' -F'..self.sdk_path..'/System/Library/PrivateFrameworks'
         for i,v in ipairs(self.frameworks) do
             frameworks = frameworks..' -framework '..v
         end
@@ -44,7 +44,7 @@ function builder:get_ldflags()
 end
 
 function builder:link(obj)
-    super.link(self, obj)
+    if not super.link(self, obj) then return end
 
     -- flags
     local execute = self.verbose and os.pexecute or os.execute
@@ -59,8 +59,9 @@ function builder:link(obj)
         io.write('\n')
     end
 
-    execute("ldid -S "..self.output)
+    execute("ldid -S"..(self.entitlements or "").." "..self.output)
 
+    return true
 end
 
 return builder
