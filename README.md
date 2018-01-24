@@ -1,31 +1,40 @@
-This is basically my own personal build system.
-It's entirely in LuaJIT because I like LuaJIT.
-And it targets the platforms I like. And also Windows.
-
-# Installing
-
-You actually don't need to install it. Just clone it somewhere and run `luajit /path/to/aite/main.lua`.
-
-But, if typing that huge command gets old, just do this:
-
-```bash
-git clone https://github.com/rweichler/aite /some/directory/aite
-ln -s /some/directory/aite/main.lua /usr/local/bin/aite
-```
-
-boom. now you can say `aite` to your computer.
-
+This is my own personal build system.
+You probably are here because you need this
+to build one of my projects.
 
 # Dependencies
 
 * LuaJIT
+
+`apt-get install luajit` or `brew install luajit` tends to do the trick.
+
+# Usage
+
+After installing LuaJIT, do this:
+
+```
+git clone https://github.com/rweichler/aite
+git clone https://github.com/rweichler/MY-OTHER-PROJECT
+cd MY-OTHER-PROJECT
+luajit ../aite/main.lua
+```
+
+# Installation (optional)
+
+Just make a symlink to main.lua in your $PATH:
+
+```
+ln -s /some/directory/aite/main.lua /usr/local/bin/aite
+```
+
+Then you can just run `aite` to start a build.
 
 # Compatibility (host)
 
 * Mac
 * iOS (jailbreak required)
 * Linux
-* Windows 7 (MinGW needs to be installed, and you need to do `luajit.exe C:\some\directory\aite\main.lua` instead of `aite`)
+* Windows 7 (MinGW needs to be installed)
 * FreeBSD
 
 # Available targets
