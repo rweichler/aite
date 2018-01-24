@@ -15,9 +15,9 @@ if ffi.os == 'OSX' and (ffi.arch == 'x64' or ffi.arch == 'arm64') then
             error('bad path for stat')
         end
         if ffi.arch == 'x64' then
-            return statbuf[5]
+            return tonumber(statbuf[5])
         elseif ffi.arch == 'arm64' then
-            return statbuf[6]
+            return tonumber(statbuf[6])
         end
     end
 end
