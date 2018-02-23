@@ -13,20 +13,20 @@ function builder:set_compiler(compiler)
     self._compiler = self.toolchain_prefix..compiler
 end
 
-function builder:get_sflags()
-    local sflags = super.get_sflags(self)
+function builder:parse_sflags()
+    local sflags = super.parse_sflags(self)
     sflags = sflags..' -g -DGEKKO -mrvl -mcpu=750 -meabi -mhard-float'
     return sflags
 end
 
-function builder:get_cflags()
-    local cflags = super.get_cflags(self)
+function builder:parse_cflags()
+    local cflags = super.parse_cflags(self)
     cflags = cflags..' -Wall -O2 -I'..self.DEVKITPRO..'/libogc/include'
     return cflags
 end
 
-function builder:get_ldflags()
-    local ldflags = super.get_ldflags(self)
+function builder:parse_ldflags()
+    local ldflags = super.parse_ldflags(self)
     ldflags = ldflags..' -L'..self.DEVKITPRO..'/libogc/lib/wii -lwiiuse -lbte -logc -lm'
     return ldflags
 end

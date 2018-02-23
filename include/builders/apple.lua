@@ -14,8 +14,8 @@ function builder:set_sdk_path(sdk_path)
     self._sdk_path = sdk_path
 end
 
-function builder:get_sflags()
-    local sflags = super.get_sflags(self)
+function builder:parse_sflags()
+    local sflags = super.parse_sflags(self)
     local arch = ''
     local isysroot = self.sdk_path and '-isysroot "'..self.sdk_path..'"' or ''
     if self.archs then
@@ -26,8 +26,8 @@ function builder:get_sflags()
     return sflags..' '..arch..' '..isysroot
 end
 
-function builder:get_ldflags()
-    local ldflags = super.get_ldflags(self)
+function builder:parse_ldflags()
+    local ldflags = super.parse_ldflags(self)
     local frameworks = ''
     if self.frameworks then
         frameworks = frameworks..' -F'..self.sdk_path..'/System/Library/PrivateFrameworks'

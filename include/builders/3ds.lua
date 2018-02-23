@@ -13,20 +13,20 @@ function builder:set_compiler(compiler)
     self._compiler = self.toolchain_prefix..compiler
 end
 
-function builder:get_sflags()
-    local sflags = super.get_sflags(self)
+function builder:parse_sflags()
+    local sflags = super.parse_sflags(self)
     sflags = sflags..' -march=armv6k -mtune=mpcore -mfloat-abi=hard -mtp=soft'
     return sflags
 end
 
-function builder:get_cflags()
-    local cflags = super.get_cflags(self)
+function builder:parse_cflags()
+    local cflags = super.parse_cflags(self)
     cflags = cflags..' -g -Wall -O2 -mword-relocations -fomit-frame-pointer -ffunction-sections -I'..self.DEVKITPRO..'/libctru/include -I'..self.DEVKITPRO..'/portlibs/armv6k/include -DARM11 -D_3DS'
     return cflags
 end
 
-function builder:get_ldflags()
-    local ldflags = super.get_ldflags(self)
+function builder:parse_ldflags()
+    local ldflags = super.parse_ldflags(self)
     ldflags = ldflags..' -specs=3dsx.specs -g -L'..self.DEVKITPRO..'/libctru/lib -L'..self.DEVKITPRO..'/portlibs/armv6k/lib -lctru -lm'
     return ldflags
 end

@@ -73,6 +73,16 @@ function fs.replace_ext(path, ext)
     return string.sub(path, 1, lastIndexOf(path, '.'))..ext
 end
 
+function fs.split_path(path)
+    local idx = lastIndexOf(path, '/')
+    if not idx then
+        return path, '.'
+    end
+    local dir = string.sub(path, 1, idx - 1)
+    local filename = string.sub(path, idx + 1, #path)
+    return filename, dir
+end
+
 function fs.isdir(path)
     local dir = ffi.C.opendir(path)
     if dir == ffi.NULL then

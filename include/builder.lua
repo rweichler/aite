@@ -1,3 +1,5 @@
+-- this code is v ugly
+
 builder = object()
 
 if ffi.os == 'OSX' then
@@ -46,6 +48,35 @@ function builder:get_is_making_dylib()
         or string.has_suffix(self.output, '.dll')
 end
 
+function builder:process_flags(flags, ...)
+    local type = type(flags)
+    if type == 'nil' then
+        return ''
+    elseif type == 'string' then
+        return flags
+    elseif type == 'table' then
+        local result = ''
+        for i,v in ipairs(flags) do
+            result = result..' '..self:process_flags(v, ...)
+        end
+        return result
+    elseif type == 'function' then
+        return v(self, ...), true
+    else
+        error('bad type '..type)
+    end
+end
+
+local function has_func(t)
+    local type = type(t)
+    if type == 'table' then
+        for i,v in ipairs(t) do
+            if has_func(v) then return true end
+        end
+    end
+    return type == 'function'
+end
+
 function builder:set_is_making_dylib(k)
     self._is_making_dylib = k
 end
@@ -54,8 +85,12 @@ function builder:set_ldflags(ldflags)
     self._ldflags = ldflags
 end
 
-function builder:get_ldflags()
-    local ldflags = self._ldflags or ''
+function builder:get_ldflags(cflags)
+    return self._ldflags
+end
+
+function builder:parse_ldflags(...)
+    local ldflags = self:process_flags(self._ldflags, ...)
     if self.is_making_dylib then
         if ffi.os == 'OSX' then
             ldflags = ldflags..' -dynamiclib'
@@ -86,11 +121,20 @@ function builder:set_cflags(cflags)
     self._cflags = cflags
 end
 
-function builder:get_cflags()
-    local cflags = self._cflags or ''
+function builder:get_cflags(cflags)
+    return self._cflags
+end
+
+function builder:parse_cflags(...)
+    local cflags = self:process_flags(self._cflags, ...)
     if self.include_dirs then
         for i,v in ipairs(self.include_dirs) do
             cflags = cflags..' -I'..v
+        end
+    end
+    if self.include_dirs_after then
+        for i,v in ipairs(self.include_dirs) do
+            cflags = cflags..' -idirafter '..v
         end
     end
     if self.defines then
@@ -116,8 +160,12 @@ function builder:set_sflags(sflags)
     self._sflags = sflags
 end
 
-function builder:get_sflags()
-    local sflags = self._sflags or ''
+function builder:get_cflags(cflags)
+    return self._cflags
+end
+
+function builder:parse_sflags(...)
+    local sflags = self:process_flags(self._sflags, ...)
     return sflags
 end
 
@@ -149,9 +197,9 @@ function builder:compile()
     local compiler = self.compiler or error('builder.compiler not set (e.g. "gcc" or "clang")')
     local src = self.src or error('builder.src not set (e.g. {"main.c"} or fs.scandir("*.c"))', 2)
     local linker = compiler or self.linker
-    local cflags = self.cflags
-    local ldflags = self.ldflags
-    local sflags = self.sflags
+    local cflags = not has_func(self._cflags) and self:parse_cflags() or nil
+    local ldflags = self:parse_ldflags()
+    local sflags = self:parse_sflags()
     local should_skip = self.should_skip
 
     -- flags
@@ -214,7 +262,7 @@ function builder:compile()
                 io_write(v)
                 io_write('\n')
             end
-            local command = compiler..' '..v..' -c -o '..o..' '..cflags..' '..sflags
+            local command = compiler..' '..v..' -c -o '..o..' '..(cflags or self:parse_cflags(v))..' '..sflags
             local result = execute(command)
             local success = result == true or result == 0
 
@@ -232,8 +280,8 @@ end
 function builder:link(obj)
     -- args
     local linker = self.linker or assert(self.compiler, 'linker not set (e.g. "clang" or "gcc")')
-    local ldflags = self.ldflags
-    local sflags = self.sflags
+    local ldflags = self:parse_ldflags()
+    local sflags = self:parse_sflags()
     local output = self.output
 
     -- flags
