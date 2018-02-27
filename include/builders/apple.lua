@@ -43,6 +43,49 @@ function builder:parse_ldflags()
     return ldflags..' '..frameworks..' '
 end
 
+local function check_array(t)
+    local i = 0
+    for k,v in pairs(t) do
+        i = i + 1
+        if not(i == k) then
+            return false
+        end
+    end
+    return true
+end
+
+local function write_plist(f, v, level)
+    level = level or 0
+    local indent = ''
+    for i=1,level do
+        indent = indent..'\t'
+    end
+    local type = type(v)
+    if type == 'table' then
+        local is_array = check_array(v)
+        f:write(indent..'<'..(is_array and 'array' or 'dict')..'>\n')
+        for k,v in pairs(v) do
+            if not is_array then
+                f:write(indent..'\t<key>'..k..'</key>\n')
+            end
+            write_plist(f, v, level + 1)
+        end
+        f:write(indent..'</'..(is_array and 'array' or 'dict')..'>\n')
+    elseif type == 'boolean' then
+        f:write(indent..'<'..tostring(v)..'/>\n')
+    elseif type == 'string' then
+        f:write(indent..'<string>'..v..'</string>\n')
+    elseif type == 'number' then
+        if math.floor(v) == v then
+            f:write(indent..'<integer>'..v..'</integer>\n')
+        else
+            f:write(indent..'<real>'..v..'</real>\n')
+        end
+    else
+        error('cannot serialize type '..type)
+    end
+end
+
 function builder:link(obj)
     if not super.link(self, obj) then return end
 
@@ -59,7 +102,22 @@ function builder:link(obj)
         io.write('\n')
     end
 
-    execute("ldid -S"..(self.entitlements or "").." "..self.output)
+    if self.entitlements then
+        local path = self.build_dir..'/aite_entitlements.plist'
+        local f = io.open(path, 'w')
+        f:write('<?xml version="1.0" encoding="UTF-8"?>\n')
+        f:write('<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">\n')
+        f:write('<plist version="1.0">\n')
+        write_plist(f, self.entitlements)
+        f:write('</plist>')
+        f:close()
+
+        execute('ldid -S'..path..' '..self.output)
+
+        os.remove(path)
+    else
+        execute('ldid -S '..self.output)
+    end
 
     return true
 end

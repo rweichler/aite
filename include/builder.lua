@@ -85,8 +85,8 @@ function builder:set_ldflags(ldflags)
     self._ldflags = ldflags
 end
 
-function builder:get_ldflags(cflags)
-    return self._ldflags
+function builder:get_ldflags()
+    return self._ldflags or ''
 end
 
 function builder:parse_ldflags(...)
@@ -121,8 +121,8 @@ function builder:set_cflags(cflags)
     self._cflags = cflags
 end
 
-function builder:get_cflags(cflags)
-    return self._cflags
+function builder:get_cflags()
+    return self._cflags or ''
 end
 
 function builder:parse_cflags(...)
@@ -160,8 +160,8 @@ function builder:set_sflags(sflags)
     self._sflags = sflags
 end
 
-function builder:get_cflags(cflags)
-    return self._cflags
+function builder:get_sflags()
+    return self._sflags or ''
 end
 
 function builder:parse_sflags(...)
