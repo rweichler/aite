@@ -132,10 +132,11 @@ function fs.mkdir(path, skip_last)
         path = string.sub(path, 1, last_index - 1)
     end
     if ffi.os == 'Windows' then
-        return os.execute('if not exist "'..path..'" mkdir '..path) == 0
+        os.execute('if not exist "'..path..'" mkdir '..path)
     else
-        return os.execute('mkdir -p '..path) == 0
+        os.execute('mkdir -p '..path)
     end
+    return path
 end
 
 fs.make_dir = fs.mkdir
