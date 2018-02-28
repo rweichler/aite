@@ -86,6 +86,27 @@ local function write_plist(f, v, level)
     end
 end
 
+function builder:sign(bin)
+    local execute = self.verbose and os.pexecute or os.execute
+
+    if self.entitlements then
+        local path = self.build_dir..'/aite_entitlements.plist'
+        local f = io.open(path, 'w')
+        f:write('<?xml version="1.0" encoding="UTF-8"?>\n')
+        f:write('<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">\n')
+        f:write('<plist version="1.0">\n')
+        write_plist(f, self.entitlements)
+        f:write('</plist>')
+        f:close()
+
+        execute('ldid -S'..path..' '..bin)
+
+        os.remove(path)
+    else
+        execute('ldid -S '..bin)
+    end
+end
+
 function builder:link(obj)
     if not super.link(self, obj) then return end
 
@@ -102,22 +123,7 @@ function builder:link(obj)
         io.write('\n')
     end
 
-    if self.entitlements then
-        local path = self.build_dir..'/aite_entitlements.plist'
-        local f = io.open(path, 'w')
-        f:write('<?xml version="1.0" encoding="UTF-8"?>\n')
-        f:write('<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">\n')
-        f:write('<plist version="1.0">\n')
-        write_plist(f, self.entitlements)
-        f:write('</plist>')
-        f:close()
-
-        execute('ldid -S'..path..' '..self.output)
-
-        os.remove(path)
-    else
-        execute('ldid -S '..self.output)
-    end
+    self:sign(self.output)
 
     return true
 end
