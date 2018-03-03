@@ -4,6 +4,7 @@ debber = object()
 function debber:new()
     local self = object.new(self)
     self.options = self.options or "-Zgzip"
+    self.command = self.command or 'dpkg-deb'
     return self
 end
 
@@ -61,7 +62,7 @@ function debber:make_deb()
     local pretty_print = not self.verbose and not self.quiet
     local quiet = self.quiet
     if pretty_print then
-        print(YELLOW('dpkg-deb')..DARK_RED(' ---')..RED('> ')..GREEN(output))
+        print(YELLOW(self.command)..DARK_RED(' ---')..RED('> ')..GREEN(output))
     end
 
     local packageinfo = self.packageinfo
@@ -94,7 +95,7 @@ function debber:make_deb()
     if not self.verbose then
         tail = ' &> /dev/null'
     end
-    local result = execute("dpkg-deb "..(self.options or "").." -b "..input.." "..output..tail)
+    local result = execute(self.command.." "..(self.options or "").." -b "..input.." "..output..tail)
     local success = result == 0 or result == true
 
     if created_DEBIAN then
