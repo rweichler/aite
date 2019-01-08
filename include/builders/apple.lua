@@ -30,7 +30,10 @@ function builder:parse_ldflags()
     local ldflags = super.parse_ldflags(self)
     local frameworks = ''
     if self.frameworks then
-        frameworks = frameworks..' -F'..self.sdk_path..'/System/Library/PrivateFrameworks'
+        local private_dir = self.sdk_path..'/System/Library/PrivateFrameworks'
+        if fs.isdir(private_dir) then
+            frameworks = frameworks..' -F'..private_dir
+        end
         for i,v in ipairs(self.frameworks) do
             frameworks = frameworks..' -framework '..v
         end
