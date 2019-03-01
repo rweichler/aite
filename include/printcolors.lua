@@ -1,3 +1,5 @@
+local ffi = require 'ffi'
+
 local c = {}
 c.RED =         '1;31'
 c.GREEN =       '1;32'
