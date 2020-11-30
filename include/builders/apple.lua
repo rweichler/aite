@@ -91,6 +91,7 @@ end
 
 function builder:sign(bin)
     local execute = self.verbose and os.pexecute or os.execute
+    local ldid = (self.toolchain_prefix or '')..'ldid'
 
     if self.entitlements then
         local path = self.build_dir..'/aite_entitlements.plist'
@@ -102,11 +103,11 @@ function builder:sign(bin)
         f:write('</plist>')
         f:close()
 
-        execute('ldid -S'..path..' '..bin)
+        execute(ldid..' -S'..path..' '..bin)
 
         os.remove(path)
     else
-        execute('ldid -S '..bin)
+        execute(ldid..' -S '..bin)
     end
 end
 

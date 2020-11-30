@@ -66,7 +66,6 @@ function debber:make_deb()
     end
 
     local packageinfo = self.packageinfo
-    local created_DEBIAN = false
     if packageinfo then
         if not packageinfo.Version then
             error("packageinfo.Version not set", 2)
@@ -75,7 +74,6 @@ function debber:make_deb()
             error("packageinfo.Package not set", 2)
         end
         if not fs.isdir(input..'/DEBIAN') then
-            created_DEBIAN = true
             if not fs.mkdir(input..'/DEBIAN') then
                 error("packageinfo set, but could not create "..self.input.."/DEBIAN folder", 2)
             end
@@ -91,18 +89,8 @@ function debber:make_deb()
         error('packageinfo not set (e.g. {Package = "lol.wut", Version = "1.0"})', 2)
     end
 
-    local tail = ''
-    if not self.verbose then
-        tail = ' &> /dev/null'
-    end
-    local result = execute(self.command.." "..(self.options or "").." -b "..input.." "..output..tail)
+    local result = execute(self.command.." "..(self.options or "").." -b "..input.." "..output)
     local success = result == 0 or result == true
-
-    if created_DEBIAN then
-        os.execute('rm -r '..input..'/DEBIAN')
-    elseif packageinfo then
-        os.execute('rm '..input..'/DEBIAN/control')
-    end
 
     if not success then
         local lol = packageinfo and "" or " Probably because you're using a DEBIAN/control file."
